@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<OutputType>WinExe</OutputType>
+
+		<AssemblyName>KyberBrowser</AssemblyName>
+		<Version>1.0.0</Version>
+		<Copyright>Copyright © 2023 Dyvinia</Copyright>
+		<Company>Dyvinia</Company>
+		<ApplicationIcon>Resources\kyberbrowser_icon.ico</ApplicationIcon>
+
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove=".gitattributes" />
+		<None Remove=".gitignore" />
+		<None Remove="Constants.json" />
+		<None Remove="Resources\add.png" />
+		<None Remove="Resources\download.png" />
+		<None Remove="Resources\folder.png" />
+		<None Remove="Resources\Graphics.lua" />
+		<None Remove="Resources\InitfsEdit.exe" />
+		<None Remove="Resources\kyberbrowser_icon.ico" />
+		<None Remove="Resources\kyber_bg.png" />
+		<None Remove="Resources\kyber_logo.ico" />
+		<None Remove="Resources\refresh.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Fonts\Univers.ttf" />
+		<Resource Include="Fonts\NewsGothBT.ttf" />
+		<Resource Include="Resources\add.png" />
+		<Resource Include="Resources\download.png" />
+		<Resource Include="Resources\folder.png" />
+		<Resource Include="Resources\kyberbrowser_icon.ico" />
+		<Resource Include="Resources\kyber_bg.png" />
+		<Resource Include="Resources\kyber_logo.ico" />
+		<Resource Include="Resources\kyber_bg2.png" />
+		<Resource Include="Resources\refresh.png" />
+		<EmbeddedResource Include="Resources\Constants.json" />
+		<EmbeddedResource Include="Resources\Graphics.lua" />
+		<EmbeddedResource Include="Resources\InitfsEdit.exe" />
+	</ItemGroup>
+</Project>
