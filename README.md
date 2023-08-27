@@ -12,7 +12,7 @@ Server Browser and Launcher for [Kyber](https://kyber.gg/)
   - Edits existing Initfs file rather than replacing with a new one
  
 ## Settings
-Click the gear icon on the bottom right to open the Settings window. Here you can change different options and easily see the current version of KyberBrowser.
+Click the gear icon on the bottom right to open the Settings window. <br>Here you can change different options, install the invisibility fix (InitfsFix), and easily see the current version of KyberBrowser.
  
 ![image](https://github.com/Dyvinia/KyberBrowser/assets/13797470/3dac35bf-b417-4e86-a24c-e4d8de19045e)
 
