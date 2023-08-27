@@ -29,6 +29,9 @@ namespace KyberBrowser {
             MouseDown += (s, e) => FocusManager.SetFocusedElement(this, this);
 
             ModDataComboBox.ItemsSource = App.ModDataList;
+            ModDataComboBox.SelectionChanged += (_, _) => {
+                Config.Settings.SelectedModData = ((DirectoryInfo)ModDataComboBox.SelectedItem)?.FullName ?? Config.Settings.SelectedModData;
+            };
 
             _ = GetServersAsync();
             UpdateModDataComboBox();
@@ -282,6 +285,7 @@ namespace KyberBrowser {
         private void HostButton_Click(object sender, RoutedEventArgs e) {
             hostWindow.Show();
             hostWindow.Focus();
+            hostWindow.UpdateModDataComboBox();
         }
 
         protected override void OnKeyDown(KeyEventArgs e) {

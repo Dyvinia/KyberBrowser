@@ -103,12 +103,8 @@ namespace KyberBrowser {
                 tBox.Text = "2";
         }
 
-        private void UpdateModDataComboBox() {
+        public void UpdateModDataComboBox() {
             string path = Path.Combine(Path.GetDirectoryName(Config.Settings.BF2Path) ?? "", "ModData");
-
-            Config.Settings.SelectedModData = ((DirectoryInfo)ModDataComboBox.SelectedItem)?.FullName ?? Config.Settings.SelectedModData;
-
-            App.GetModData();
 
             ModDataComboBox.SelectedItem = App.ModDataList.FirstOrDefault(s => s.FullName == Config.Settings.SelectedModData);
 

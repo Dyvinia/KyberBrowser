@@ -62,8 +62,6 @@ namespace KyberBrowser {
         private void UpdateModDataComboBox() {
             string path = Path.Combine(Path.GetDirectoryName(Config.Settings.BF2Path) ?? "", "ModData");
 
-            App.GetModData();
-
             ModDataComboBox.ItemsSource = App.ModDataList.Where(m => !m.FullName.Contains("Vanilla"));
 
             ModDataComboBox.SelectedItem = App.ModDataList.FirstOrDefault(s => s.FullName == Config.Settings.SelectedModData);

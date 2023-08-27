@@ -70,6 +70,11 @@ namespace KyberBrowser {
                 Config.Save();
                 Environment.Exit(0);
             }
+            else {
+                foreach (Process existingProcess in Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName))
+                    if (existingProcess.Id != Environment.ProcessId)
+                        existingProcess.Kill();
+            }
 
             MainWindow window = new();
             window.Show();
