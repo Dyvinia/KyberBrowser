@@ -18,6 +18,9 @@ namespace DyviniaUtils.Dialogs {
             Title += $" {repoName}";
             //Owner = Application.Current.MainWindow;
 
+            Topmost = true;
+            Focus();
+
             InstallButton.Click += OnClose;
             IgnoreButton.Click += OnClose;
 
