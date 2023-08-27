@@ -45,10 +45,6 @@ namespace KyberBrowser {
 
             List<dynamic> modes = constants.modes.ToObject<List<dynamic>>();
 
-            // fix font rendering
-            foreach (dynamic mode in modes)
-                mode.name = (string)mode.name;
-
             ModeComboBox.ItemsSource = modes;
             ModeComboBox.SelectedIndex = 0;
         }
