@@ -4079,7 +4079,7 @@
                                 <AdornerDecorator Margin="0,0,0,0">
                                     <ContentPresenter />
                                 </AdornerDecorator>
-                                <Grid Height="48" x:Name="titlebar"
+                                <Grid Height="47" x:Name="titlebar"
                                       Background="{StaticResource WindowTitleColour}"
                                       VerticalAlignment="Top" Margin="0">
                                     <DockPanel Margin="0,0,130,0" >
@@ -4097,7 +4097,7 @@
                                                                     <GeometryDrawing Brush="#FF010101" Geometry="F1 M113.86,98.6z M0,0z M30.2,3L30.2,3 3.46,49.3 30.2,95.6 83.66,95.6 110.39,49.3 83.66,3 30.2,3z" />
                                                                     <GeometryDrawing Geometry="F1 M113.86,98.6z M0,0z M30.2,3L30.2,3 3.46,49.3 30.2,95.6 83.66,95.6 110.39,49.3 83.66,3 30.2,3 30.2,3z">
                                                                         <GeometryDrawing.Pen>
-                                                                            <Pen Brush="#FF8B6CFF" Thickness="6" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                                            <Pen Brush="#FF946CFF" Thickness="6" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
                                                                         </GeometryDrawing.Pen>
                                                                     </GeometryDrawing>
                                                                     <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M113.86,98.6z M0,0z M78.46,12L78.46,12 35.39,12 13.86,49.3 35.39,86.6 78.46,86.6 100,49.3 78.46,12z" />
@@ -4132,7 +4132,7 @@
 
                                         <!-- CUSTOM ICON END -->
 
-                                        <TextBlock Margin="6,00"
+                                        <TextBlock Margin="6 0"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Stretch"
                                                    TextWrapping="NoWrap"
