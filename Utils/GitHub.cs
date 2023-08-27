@@ -82,7 +82,7 @@ namespace DyviniaUtils {
             await Downloader.DownloadWithWindow(downloadUrl, filePath);
 
             Process.Start(new ProcessStartInfo { FileName = filePath, UseShellExecute = true });
-            Application.Current.Dispatcher.Invoke(() => Application.Current.Shutdown());
+            Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
         }
 
         /// <summary>

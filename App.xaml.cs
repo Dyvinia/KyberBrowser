@@ -94,27 +94,16 @@ namespace KyberBrowser {
             ExceptionDialog.Show(e.Exception, title, true);
         }
 
-        public static void DownloadKyber() {
-            using WebClient client = new();
+        public static async void DownloadKyber() {
             try {
                 string hash = File.Exists(KyberPath) ? SHA256CheckSum(KyberPath) : "";
-                string serverHash = client.DownloadString($"https://kyber.gg/api/hashes/distributions/{Config.Settings.KyberChannel}/dll");
+                string serverHash = await new HttpClient().GetStringAsync($"https://kyber.gg/api/hashes/distributions/{Config.Settings.KyberChannel}/dll");
                 if (hash != serverHash) {
-                    client.DownloadFile($"https://kyber.gg/api/downloads/distributions/{Config.Settings.KyberChannel}/dll", KyberPath);
+                    await Downloader.Download($"https://kyber.gg/api/downloads/distributions/{Config.Settings.KyberChannel}/dll", KyberPath, new Progress<double>());
                 }
-            }
-            catch (WebException e) {
-                if (e.Response != null) {
-                    using StreamReader r = new(e.Response.GetResponseStream());
-                    string responseContent = r.ReadToEnd();
-                    ExceptionDialog.Show(e, "KYBER", false, "Unable to download Kyber:\n" + responseContent);
-                    Config.Settings.KyberChannel = "stable";
-                    Config.Save();
-                }
-                else ExceptionDialog.Show(e, "KYBER", false, "Unable to download Kyber:");
             }
             catch (Exception e) {
-                ExceptionDialog.Show(e, "KYBER", false, "Invalid release channel:");
+                ExceptionDialog.Show(e, "KYBER", false, "Unable to download Kyber:");
                 Config.Settings.KyberChannel = "stable";
                 Config.Save();
             }
