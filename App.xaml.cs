@@ -60,7 +60,7 @@ namespace KyberBrowser {
             GetProxies();
         }
 
-        protected override void OnStartup(StartupEventArgs e) {
+        protected override async void OnStartup(StartupEventArgs e) {
             if (Config.Settings.RunAsAdmin && !IsAdmin) {
                 Process.Start(new ProcessStartInfo { 
                     FileName = Environment.ProcessPath, 
@@ -76,7 +76,7 @@ namespace KyberBrowser {
 
             if (!File.Exists(Config.Settings.BF2Path)) {
                 if (!FindBattlefrontPath()) {
-                    Current.Dispatcher.BeginInvoke(() => {
+                    _ = Current.Dispatcher.BeginInvoke(() => {
                         MessageBoxDialog.Show("Unable To Locate STAR WARS Battlefront II", "KYBER", MessageBoxButton.OK, DialogSound.Error);
                         new SettingsWindow().ShowDialog();
                         Config.Save();
@@ -84,30 +84,14 @@ namespace KyberBrowser {
                 }
             }
 
-            if (Config.Settings.UpdateChecker) {
-                CheckVersion();
-            }
+            if (Config.Settings.UpdateChecker)
+                await GitHub.CheckAndInstall("Dyvinia", "KyberBrowser");
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) {
             e.Handled = true;
             string title = "KYBER";
             ExceptionDialog.Show(e.Exception, title, true);
-        }
-
-        public static async void CheckVersion() {
-            try {
-                Version latestVersion = new(await new HttpClient().GetStringAsync("https://kyber.gg/api/version/launcher"));
-                Version localVersion = new(Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(",", "."));
-                if (localVersion.CompareTo(latestVersion) < 0) {
-                    string message = "You are using an outdated version of Kyber.\nWould you like to download the latest version?";
-                    MessageBoxResult Result = MessageBoxDialog.Show(message, "KYBER", MessageBoxButton.YesNo, DialogSound.Notify);
-                    if (Result == MessageBoxResult.Yes) {
-                        Process.Start(new ProcessStartInfo("https://kyber.gg/#download") { UseShellExecute = true });
-                    }
-                }
-            }
-            catch { } // Showing an error would only confuse the user
         }
 
         public static void DownloadKyber() {
