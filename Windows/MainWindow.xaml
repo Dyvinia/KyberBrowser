@@ -67,12 +67,12 @@
                         <TextBlock Text="Search:" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" Margin="1 0 0 0" TextWrapping="NoWrap" VerticalAlignment="Center"/>
                         
                         <TextBox x:Name="FilterTextBox" Margin="3 0 0 0" Grid.Column="1" TextChanged="FilterTextBox_TextChanged" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
-                        <Button x:Name="FilterClearButton" Grid.Column="1" Width="20" HorizontalAlignment="Right" VerticalContentAlignment="Center" Click="FilterClearButton_Click" Content="&#xE106;" FontFamily="Segoe MDL2 Assets" FontSize="7px" RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display">
+                        <Button x:Name="FilterClearButton" Grid.Column="1" Width="20" HorizontalAlignment="Right" VerticalAlignment="Stretch" Click="FilterClearButton_Click" Content="&#xE106;" FontFamily="Segoe MDL2 Assets" FontSize="8" >
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Setter Property="Cursor" Value="Hand"/>
                                     <Setter Property="Background" Value="#00000000"/>
-                                    <Setter Property="Foreground" Value="#FFF1F1F1"/>
+                                    <Setter Property="Foreground" Value="#FFA3A3A3"/>
                                     <Setter Property="Visibility" Value="Visible"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
