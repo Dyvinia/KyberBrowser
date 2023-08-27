@@ -81,6 +81,7 @@ namespace KyberBrowser {
         }
 
         private void UpdatePingSiteComboBox() {
+            App.GetProxies();
             PingSiteComboBox.ItemsSource = App.Proxies.Values.ToList().OrderBy(p => p.Ping);
             PingSiteComboBox.SelectedIndex = 0;
         }
@@ -190,6 +191,14 @@ namespace KyberBrowser {
 
         private void DescTextBox_LostFocus(object sender, RoutedEventArgs e) {
             DescTextBox.Text = Regex.Replace(DescTextBox.Text, @"(\r\n){2,}", Environment.NewLine).Trim();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e) {
+            base.OnKeyDown(e);
+
+            if (e.Key == Key.F5) {
+                UpdatePingSiteComboBox();
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e) {

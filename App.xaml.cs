@@ -136,7 +136,7 @@ namespace KyberBrowser {
                     ModDataList.Add(new(dir));
         }
 
-        private static async void GetProxies() {
+        public static async void GetProxies() {
             ProxyData[] proxies = JsonSerializer.Deserialize<ProxyData[]>(await new HttpClient().GetStringAsync("https://kyber.gg/api/proxies"));
 
             foreach (ProxyData proxy in proxies) {
