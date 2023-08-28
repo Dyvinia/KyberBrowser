@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.IO;
-using System.Net;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Net.Http;
@@ -139,10 +139,10 @@ namespace KyberBrowser {
         }
 
         public static async void GetProxies() {
-            ProxyData[] proxies = JsonSerializer.Deserialize<ProxyData[]>(await new HttpClient().GetStringAsync("https://kyber.gg/api/proxies"));
+            ProxyData[] proxies = JsonSerializer.Deserialize<ProxyData[]>(await HttpClient.GetStringAsync("https://kyber.gg/api/proxies"));
 
-            foreach (ProxyData proxy in proxies) {
-                PingReply ping = new Ping().Send(proxy.IP);
+            Parallel.ForEach(proxies, proxy => {
+                PingReply ping = new Ping().Send(proxy.IP, 1000);
 
                 if (ping.Status == IPStatus.Success) {
                     proxy.Ping = ping.RoundtripTime / 2;
@@ -150,7 +150,7 @@ namespace KyberBrowser {
                 else {
                     proxy.Ping = 999;
                 }
-            }
+            });
 
             Proxies = proxies.ToDictionary(p => p.IP, p => p);
         }

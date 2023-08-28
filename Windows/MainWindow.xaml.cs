@@ -284,6 +284,7 @@ namespace KyberBrowser {
             hostWindow.Show();
             hostWindow.Focus();
             hostWindow.UpdateModDataComboBox();
+            hostWindow.UpdatePingSiteComboBox();
         }
 
         protected override void OnKeyDown(KeyEventArgs e) {

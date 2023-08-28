@@ -34,11 +34,6 @@ namespace KyberBrowser {
             GetModes();
 
             ModDataComboBox.ItemsSource = App.ModDataList;
-
-            Loaded += (_, _) => {
-                UpdatePingSiteComboBox();
-                UpdateModDataComboBox();
-            };
         }
 
         private void GetModes() {
@@ -77,10 +72,16 @@ namespace KyberBrowser {
             MapComboBox.SelectedIndex = 0;
         }
 
-        private void UpdatePingSiteComboBox() {
+        public void UpdatePingSiteComboBox() {
+            string selectedIP = ((ProxyData)PingSiteComboBox.SelectedItem)?.IP;
             App.GetProxies();
-            PingSiteComboBox.ItemsSource = App.Proxies.Values.ToList().OrderBy(p => p.Ping);
-            PingSiteComboBox.SelectedIndex = 0;
+
+            IOrderedEnumerable<ProxyData> proxies = App.Proxies.Values.OrderBy(p => p.Ping);
+            PingSiteComboBox.ItemsSource = proxies;
+            PingSiteComboBox.SelectedItem = proxies.FirstOrDefault(s => s.IP == selectedIP);
+
+            if (PingSiteComboBox.SelectedItem is null)
+                PingSiteComboBox.SelectedIndex = 0;
         }
 
         private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
