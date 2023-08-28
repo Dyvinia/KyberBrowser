@@ -23,6 +23,10 @@ The config file, aswell as other Kyber related files, are stored in `%AppData%\K
 > 
 > **A:** Go to the settings window and disable `Require Administrator`.<br>If you are unable to open the program, go to `%AppData%\KyberBrowser\`, open `config.json`, and set `RunAsAdmin` to `false`.
 
+> **Q:** Why is the Frosty button greyed out?
+> 
+> **A:** You must go to the settings window and enter your Frosty Installation.
+
 > **Q:** I can't run this
 > 
 > **A:** This requires [.NET 7 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
