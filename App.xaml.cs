@@ -48,6 +48,8 @@ namespace KyberBrowser {
 
         public static readonly ObservableCollection<DirectoryInfo> ModDataList = new();
 
+        public static readonly HttpClient HttpClient = new();
+
         public static Dictionary<string, ProxyData> Proxies { get; private set; } = new();
 
 
@@ -102,7 +104,7 @@ namespace KyberBrowser {
         public static async void DownloadKyber() {
             try {
                 string hash = File.Exists(KyberPath) ? SHA256CheckSum(KyberPath) : "";
-                string serverHash = await new HttpClient().GetStringAsync($"https://kyber.gg/api/hashes/distributions/{Config.Settings.KyberChannel}/dll");
+                string serverHash = await HttpClient.GetStringAsync($"https://kyber.gg/api/hashes/distributions/{Config.Settings.KyberChannel}/dll");
                 if (hash != serverHash) {
                     await Downloader.Download($"https://kyber.gg/api/downloads/distributions/{Config.Settings.KyberChannel}/dll", KyberPath, new Progress<double>());
                 }

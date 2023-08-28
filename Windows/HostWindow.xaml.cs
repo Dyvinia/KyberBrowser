@@ -23,7 +23,8 @@ namespace KyberBrowser {
     /// </summary>
     public partial class HostWindow : Window {
 
-        private static readonly HttpClient httpClient = new();
+        [GeneratedRegex("(\\r\\n){2,}")]
+        private static partial Regex NewlineRegex();
 
         public HostWindow() {
             InitializeComponent();
@@ -114,7 +115,7 @@ namespace KyberBrowser {
 
             Dictionary<string, object> selection = new() {
                 { "autoBalanceTeams", AutoBalanceCheckbox.IsChecked == true },
-                { "description", Regex.Replace(DescTextBox.Text, @"(\r\n){2,}", Environment.NewLine).Trim() },
+                { "description", NewlineRegex().Replace(DescTextBox.Text, Environment.NewLine).Trim() },
                 { "displayInBrowser", true },
                 { "faction", LightFactionRadio.IsChecked == true ? 0 : 1 },
                 { "kyberProxy", ((ProxyData)PingSiteComboBox.SelectedItem).IP },
@@ -125,7 +126,7 @@ namespace KyberBrowser {
                 { "password", PassTextBox.Text }
             };
 
-            HttpResponseMessage response = await httpClient.PostAsync("https://kyber.gg/api/config/host", new StringContent(System.Text.Json.JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await App.HttpClient.PostAsync("https://kyber.gg/api/config/host", new StringContent(System.Text.Json.JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode) {
                 string message = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync())?.message;
@@ -186,7 +187,7 @@ namespace KyberBrowser {
         }
 
         private void DescTextBox_LostFocus(object sender, RoutedEventArgs e) {
-            DescTextBox.Text = Regex.Replace(DescTextBox.Text, @"(\r\n){2,}", Environment.NewLine).Trim();
+            DescTextBox.Text = NewlineRegex().Replace(DescTextBox.Text, Environment.NewLine).Trim();
         }
 
         protected override void OnKeyDown(KeyEventArgs e) {

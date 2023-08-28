@@ -19,8 +19,6 @@ namespace KyberBrowser {
     /// </summary>
     public partial class MainWindow : Window {
 
-        private static readonly HttpClient httpClient = new();
-
         private readonly HostWindow hostWindow = new();
 
         public MainWindow() {
@@ -41,12 +39,12 @@ namespace KyberBrowser {
         }
 
         private async Task GetServersAsync() {
-            JsonDocument serversJson = JsonDocument.Parse(await httpClient.GetStringAsync("https://kyber.gg/api/servers"));
+            JsonDocument serversJson = JsonDocument.Parse(await App.HttpClient.GetStringAsync("https://kyber.gg/api/servers"));
             int pageCount = serversJson.RootElement.GetProperty("pageCount").GetInt32();
 
             List<ServerData> servers = new();
             for (int i = 1; i <= pageCount; i++) {
-                JsonDocument serverPageJson = JsonDocument.Parse(await httpClient.GetStringAsync($"https://kyber.gg/api/servers?page={i}"));
+                JsonDocument serverPageJson = JsonDocument.Parse(await App.HttpClient.GetStringAsync($"https://kyber.gg/api/servers?page={i}"));
                 ServerData[] serverPage = JsonSerializer.Deserialize<ServerData[]>(serverPageJson.RootElement.GetProperty("servers"));
                 servers.AddRange(serverPage);
             }
@@ -146,7 +144,7 @@ namespace KyberBrowser {
                 { "password", PasswordTextBox.Text }
             };
 
-            HttpResponseMessage response = await httpClient.PostAsync("https://kyber.gg/api/config/play", new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await App.HttpClient.PostAsync("https://kyber.gg/api/config/play", new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode) {
                 string message = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync())?.message;
