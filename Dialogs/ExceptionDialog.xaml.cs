@@ -1,24 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace KyberBrowser.Dialogs {
     /// <summary>
     /// Interaction logic for ExceptionWindow.xaml
     /// </summary>
     public partial class ExceptionDialog : Window {
-        public ExceptionDialog(Exception ex, string title, bool isCrash, string messagePrefix) {
+        public ExceptionDialog(Exception ex, string title, bool isUnhandled, string messagePrefix) {
             InitializeComponent();
 
             Title = title;
@@ -26,11 +15,10 @@ namespace KyberBrowser.Dialogs {
             Icon = mainWindow.Icon;
 
             // Play according sounds
-            if (isCrash) {
+            if (isUnhandled) 
                 SystemSounds.Hand.Play();
-                Title += " HAS CRASHED";
-            }
-            else SystemSounds.Exclamation.Play();
+            else 
+                SystemSounds.Exclamation.Play();
 
             // Create exception message
             string message = ex.Message;
@@ -41,14 +29,13 @@ namespace KyberBrowser.Dialogs {
             message += Environment.NewLine + Environment.NewLine + ex.StackTrace;
             ExceptionText.Text = message;
 
-            if (isCrash) CloseButton.Click += (s, e) => Environment.Exit(0);
-            else CloseButton.Click += (s, e) => Close();
+            CloseButton.Click += (s, e) => Close();
             CopyButton.Click += (s, e) => Clipboard.SetDataObject(message);
         }
 
-        public static void Show(Exception ex, string title, bool isCrash = false, string messagePrefix = null) {
+        public static void Show(Exception ex, string title, bool isUnhandled = false, string messagePrefix = null) {
             Application.Current.Dispatcher.Invoke(() => {
-                ExceptionDialog window = new ExceptionDialog(ex, title, isCrash, messagePrefix);
+                ExceptionDialog window = new(ex, title, isUnhandled, messagePrefix);
                 window.ShowDialog();
             });
         }

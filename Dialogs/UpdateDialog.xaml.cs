@@ -15,11 +15,8 @@ namespace DyviniaUtils.Dialogs {
         public UpdateDialog(string repoAuthor, string repoName) {
             InitializeComponent();
 
-            Title += $" {repoName}";
-            //Owner = Application.Current.MainWindow;
-
             Topmost = true;
-            Focus();
+            Hide();
 
             InstallButton.Click += OnClose;
             IgnoreButton.Click += OnClose;
@@ -27,6 +24,10 @@ namespace DyviniaUtils.Dialogs {
             WebpageButton.Click += (_, _) => Process.Start(new ProcessStartInfo($"https://github.com/{repoAuthor}/{repoName}/releases/latest") { UseShellExecute = true });
 
             GetUpdateInfo(repoAuthor, repoName);
+
+            Loaded += (_, _) => {
+                Focus();
+            };
 
             SystemSounds.Exclamation.Play();
         }

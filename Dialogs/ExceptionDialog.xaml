@@ -29,7 +29,21 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="46"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="ExceptionText" Grid.Row="0" Margin="5,0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Focusable="False"/>
+                <TextBox x:Name="ExceptionText" Grid.Row="0" Margin="5,0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border x:Name="border" BorderBrush="#6fffffff" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
                     <Button x:Name="CopyButton" Content="Copy to Clipboard" Width="150" HorizontalAlignment="Right" Margin="0,5,5,5" FontSize="15" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" />

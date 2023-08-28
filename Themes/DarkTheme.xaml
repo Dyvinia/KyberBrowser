@@ -3525,7 +3525,7 @@
         <Setter Property="BorderBrush" Value="#6fffffff"/>
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
         <Setter Property="CaretBrush" Value="{StaticResource ControlDefaultForeground}"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource ControlPrimaryColourBackground}"/>
+        <Setter Property="SelectionBrush" Value="#69ffffff"/>
         <Setter Property="IsInactiveSelectionHighlightEnabled" Value="True"/>
         <Setter Property="SelectionOpacity" Value="0.7"/>
         <Setter Property="BorderThickness" Value="1"/>
