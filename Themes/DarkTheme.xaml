@@ -2109,30 +2109,22 @@
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="MinHeight" Value="16"/>
-        <Setter Property="Height" Value="20"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" MinWidth="16"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="radioButtonBorder" 
-                                        BorderBrush="{TemplateBinding BorderBrush}" 
-                                        BorderThickness="{TemplateBinding BorderThickness}" 
-                                        Background="{TemplateBinding Background}" CornerRadius="6" 
-                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                        Height="16" Width="16">
-                            <Grid x:Name="markGrid" Margin="2">
-                                <Ellipse x:Name="optionMark" Fill="{StaticResource ControlGlythColour}" MinWidth="5" MinHeight="5" Opacity="0"/>
-                            </Grid>
-                        </Border>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="3"/>
+                        </Grid.RowDefinitions>
+                        
                         <ContentPresenter x:Name="contentPresenter" 
-                                          Grid.Column="1" Focusable="False"
-                                          HorizontalAlignment="Left" RecognizesAccessKey="True" 
+                                          Grid.Row="0" Focusable="False"
+                                          HorizontalAlignment="Center" RecognizesAccessKey="True" 
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                          VerticalAlignment="Center" Margin="8 0 0 0"/>
+                                          VerticalAlignment="Center" Margin="0 0 0 0"/>
+                        <Border x:Name="radioButtonMark" Grid.Row="1" Background="#6fffffff" SnapsToDevicePixels="True" CornerRadius="1.5"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true">
@@ -2140,26 +2132,17 @@
                             <Setter Property="Padding" Value="4,-1,0,0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource ControlMouseOverBackground}"/>
-                            <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource ControlMouseOverBorderBrush}"/>
-                            <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource ControlMouseOverGlythColour}"/>
+                            <Setter Property="Background" TargetName="radioButtonMark" Value="#afffffff"/>
+                            <Setter Property="Foreground" Value="{StaticResource ControlDefaultBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource ControlDisabledBackground}"/>
-                            <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource ControlDisabledBorderBrush}"/>
-                            <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource ControlDisabledGlythColour}"/>
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource ControlSelectedBackground}"/>
-                            <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource ControlSelectedBorderBrush}"/>
-                            <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource ControlSelectedGlythColour}"/>
+                            <Setter Property="Background" TargetName="radioButtonMark" Value="#cfffffff"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="Opacity" TargetName="optionMark" Value="0.56"/>
+                            <Setter Property="Background" TargetName="radioButtonMark" Value="#ffffffff"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -2323,32 +2306,20 @@
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto"/>
-                <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Foreground" Value="{StaticResource ControlBrightDefaultBorderBrush}"/>
                 <Setter Property="MinWidth" Value="0"/>
-                <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
-                <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Height" Value="4"/>
+                <Setter Property="MinHeight" Value="4"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
                             <Grid x:Name="Bg" SnapsToDevicePixels="true">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
-                                    <ColumnDefinition Width="0.00001*"/>
-                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
-                                </Grid.ColumnDefinitions>
-                                <Button x:Name="PART_LineLeftButton" 
-                                        BorderThickness="1 1 0 1"
-                                        Command="{x:Static ScrollBar.LineLeftCommand}" >
-                                    <Path x:Name="ArrowLeft" Data="M 3.18,7 C3.18,7 5,7 5,7 5,7 1.81,3.5 1.81,3.5 1.81,3.5 5,0 5,0 5,0 3.18,0 3.18,0 3.18,0 0,3.5 0,3.5 0,3.5 3.18,7 3.18,7 z" 
-                                          Fill="{StaticResource ControlGlythColour}" Margin="3" Stretch="Uniform"/>
-                                </Button>
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" 
-                                        BorderThickness="0 1 0 1" 
+                                        BorderThickness="0" 
                                         Background="{TemplateBinding Background}" 
-                                        Grid.Column="1">
+                                        Grid.Row="1">
                                     <Track x:Name="PART_Track" Grid.Column="1" >
                                         <Track.DecreaseRepeatButton>
                                             <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
@@ -2361,44 +2332,33 @@
                                         </Track.Thumb>
                                     </Track>
                                 </Border>
-
-                                <Button x:Name="PART_LineRightButton" Grid.Column="2" Command="{x:Static ScrollBar.LineRightCommand}" 
-                                        BorderThickness="0 1 1 1">
-                                    <Path x:Name="ArrowRight" Data="M 1.81,7 C1.81,7 0,7 0,7 0,7 3.18,3.5 3.18,3.5 3.18,3.5 0,0 0,0 0,0 1.81,0 1.81,0 1.81,0 5,3.5 5,3.5 5,3.5 1.81,7 1.81,7 z" Fill="{StaticResource ControlGlythColour}" Margin="3" Stretch="Uniform"/>
-                                </Button>
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineRightButton}" Value="true"/>
-                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineRightButton}" Value="true"/>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineDownButton}" Value="true"/>
+                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineDownButton}" Value="true"/>
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="Fill" TargetName="ArrowRight" Value="{StaticResource ControlSelectedGlythColour}"/>
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineLeftButton}" Value="true"/>
-                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineLeftButton}" Value="true"/>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineUpButton}" Value="true"/>
+                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineUpButton}" Value="true"/>
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="Fill" TargetName="ArrowLeft" Value="{StaticResource ControlSelectedGlythColour}"/>
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineRightButton}" Value="true"/>
-                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineRightButton}" Value="false"/>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineDownButton}" Value="true"/>
+                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineDownButton}" Value="false"/>
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="Fill" TargetName="ArrowRight" Value="{StaticResource ControlMouseOverGlythColour}"/>
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineLeftButton}" Value="true"/>
-                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineLeftButton}" Value="false"/>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PART_LineUpButton}" Value="true"/>
+                                        <Condition Binding="{Binding IsPressed, ElementName=PART_LineUpButton}" Value="false"/>
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="Fill" TargetName="ArrowLeft" Value="{StaticResource ControlMouseOverGlythColour}"/>
                                 </MultiDataTrigger>
                                 <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Fill" TargetName="ArrowLeft" Value="{StaticResource ControlDisabledGlythColour}"/>
-                                    <Setter Property="Fill" TargetName="ArrowRight" Value="{StaticResource ControlDisabledGlythColour}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -2619,7 +2579,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-                        <Border x:Name="rectangle" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" CornerRadius="1"/>
+                        <Border x:Name="rectangle" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" CornerRadius="1.5"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
@@ -2639,23 +2599,22 @@
 
     <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Background" Value="{StaticResource ControlBrightDefaultBackground}"/>
+        <Setter Property="Background" Value="#6fffffff"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlBrightDefaultBorderBrush}"/>
         <Setter Property="IsTabStop" Value="false"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-                        <Rectangle x:Name="rectangle" Fill="{TemplateBinding Background}" SnapsToDevicePixels="True"/>
-
+                        <Border x:Name="rectangle" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" CornerRadius="1.5"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Fill" TargetName="rectangle" Value="{StaticResource ControlMouseOverBackground}"/>
+                            <Setter Property="Background" TargetName="rectangle" Value="#aaffffff"/>
                             <Setter Property="BorderBrush" Value="{StaticResource ControlMouseOverBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter Property="Fill" TargetName="rectangle" Value="{StaticResource ControlBrightDefaultBackground}"/>
+                            <Setter Property="Background" TargetName="rectangle" Value="#ccffffff"/>
                             <Setter Property="BorderBrush" Value="{StaticResource ControlBrightDefaultBackground}"/>
                             <Setter Property="Foreground" Value="{StaticResource ControlBrightDefaultBorderBrush}"/>
                         </Trigger>

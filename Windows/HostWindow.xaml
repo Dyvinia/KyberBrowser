@@ -114,14 +114,14 @@
                         </StackPanel>
 
                         <TextBlock Text="Host Faction:" Margin="0 2 0 0" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3" TextWrapping="Wrap"/>
-                        <Grid Margin="0 2 0 0" Height="28">
+                        <Grid Margin="0 2 0 0" Height="26">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="4"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton x:Name="LightFactionRadio" Grid.Column="0" Content="Light" Style="{StaticResource {x:Type ToggleButton}}" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" Foreground="#FFA3A3A3" IsChecked="True"/>
-                            <RadioButton Grid.Column="2" Content="Dark" Style="{StaticResource {x:Type ToggleButton}}" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" Foreground="#FFA3A3A3"/>
+                            <RadioButton x:Name="LightFactionRadio" Grid.Column="0" Content="Light" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" IsChecked="True"/>
+                            <RadioButton Grid.Column="2" Content="Dark" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16"/>
                         </Grid>
 
                         <CheckBox x:Name="AutoBalanceCheckbox" VerticalAlignment="Center" Margin="0,8,0,0" IsChecked="True">

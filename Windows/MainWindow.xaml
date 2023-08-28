@@ -6,16 +6,10 @@
         xmlns:local="clr-namespace:KyberBrowser"
         mc:Ignorable="d"
         Title="KyberBrowser"
-        Height="640" Width="1200"
-        MinHeight="500" MinWidth="850"
+        Height="630" Width="1120"
+        MinHeight="360" MinWidth="640"
         WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource CustomWindowStyle}" ResizeMode="CanResize" >
-    <Window.Resources>
-        <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.69"/>
-        <Storyboard x:Key="imageRotationStoryboard" Storyboard.TargetName="loadingImage" Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)">
-            <DoubleAnimation From="0" To="360" BeginTime="0:0:0" Duration="0:0:1.5" RepeatBehavior="Forever"/>
-        </Storyboard>
-    </Window.Resources>
+        Style="{DynamicResource CustomWindowStyle}" ResizeMode="CanResize">
     <Grid>
         <Grid Opacity="1">
             <Grid.Background>
@@ -31,7 +25,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <Grid x:Name="Injected" Margin="0,25,0,0" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Grid x:Name="Injected" Margin="0,17,0,0" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*"/>
                     <ColumnDefinition Width="14*"/>
@@ -51,7 +45,7 @@
                 </Image>
             </Grid>
 
-            <Grid Margin="40 65 40 40">
+            <Grid Margin="40 55 40 40">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="7*"/>
                     <ColumnDefinition Width="10"/>
@@ -126,7 +120,7 @@
                             </Button.Template>
                         </Button>
                     </Grid>
-                    <ListBox x:Name="ServerListBox" Padding="1" Background="#DD000000" SelectionChanged="ServerListBox_SelectionChanged" Margin="0 26 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+                    <ListBox x:Name="ServerListBox" Padding="1" Background="#DD000000" SelectionChanged="ServerListBox_SelectionChanged" Margin="0 26 0 0" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="0 0 0 0" Height="58" >
@@ -262,7 +256,7 @@
                                                     <Border Padding="4 2" BorderThickness="1" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" Margin="0 0 4 0">
                                                         <TextBlock x:Name="TagText" Text="{Binding}" ToolTip="{Binding}" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="14" Foreground="#FFA3A3A3" TextWrapping="NoWrap"/>
                                                     </Border>
-                                                    <Button x:Name="TagButton" ToolTip="{Binding Name}" Click="TagItem_Click" Opacity="0" Visibility="Visible"/>
+                                                    <Button x:Name="TagButton" ToolTip="{Binding}" Click="TagItem_Click" Opacity="0" Visibility="Visible"/>
                                                 </Grid>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -352,8 +346,8 @@
                                             <ColumnDefinition Width="4"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <RadioButton x:Name="LightFactionRadio" Grid.Column="0" Content="Light" Style="{StaticResource {x:Type ToggleButton}}" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" Foreground="#FFA3A3A3" IsChecked="True"/>
-                                        <RadioButton Grid.Column="2" Content="Dark" Style="{StaticResource {x:Type ToggleButton}}" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" Foreground="#FFA3A3A3"/>
+                                        <RadioButton x:Name="LightFactionRadio" Grid.Column="0" Content="Light" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" IsChecked="True"/>
+                                        <RadioButton Grid.Column="2" Content="Dark" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" />
                                     </Grid>
                                     <Separator Margin="-1 8 -1 8"/>
                                 </StackPanel>
