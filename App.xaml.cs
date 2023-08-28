@@ -142,7 +142,7 @@ namespace KyberBrowser {
             ProxyData[] proxies = JsonSerializer.Deserialize<ProxyData[]>(await HttpClient.GetStringAsync("https://kyber.gg/api/proxies"));
 
             Parallel.ForEach(proxies, proxy => {
-                PingReply ping = new Ping().Send(proxy.IP, 1000);
+                PingReply ping = new Ping().Send(proxy.IP, 1500);
 
                 if (ping.Status == IPStatus.Success) {
                     proxy.Ping = ping.RoundtripTime / 2;
