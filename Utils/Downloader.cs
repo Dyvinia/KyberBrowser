@@ -11,9 +11,9 @@ namespace DyviniaUtils {
 
     class Downloader {
         /// <summary>
-        /// Download file to destination
+        /// Download file to destination with progress
         /// </summary>
-        public static async Task Download(string downloadUrl, string destinationFilePath, IProgress<double> progress) {
+        public static async Task DownloadFile(string downloadUrl, string destinationFilePath, IProgress<double> progress) {
             using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(30) };
             using HttpResponseMessage response = await httpClient.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
 
@@ -49,12 +49,19 @@ namespace DyviniaUtils {
         }
 
         /// <summary>
+        /// Download file to destination
+        /// </summary>
+        public static async Task DownloadFile(string downloadUrl, string destinationFilePath) {
+            await DownloadFile(downloadUrl, destinationFilePath, new Progress<double>());
+        }
+
+        /// <summary>
         /// Show progress window while downloading file to destination
         /// </summary>
         public static async Task DownloadWithWindow(string downloadUrl, string destinationFilePath) {
             DownloadWindow downloadWindow = new();
             downloadWindow.Show();
-            await Download(downloadUrl, destinationFilePath, downloadWindow.Progress);
+            await DownloadFile(downloadUrl, destinationFilePath, downloadWindow.Progress);
             await Task.Delay(100);
             downloadWindow.Close();
         }

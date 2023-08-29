@@ -106,7 +106,7 @@ namespace KyberBrowser {
                 string hash = File.Exists(KyberPath) ? SHA256CheckSum(KyberPath) : "";
                 string serverHash = await HttpClient.GetStringAsync($"https://kyber.gg/api/hashes/distributions/{Config.Settings.KyberChannel}/dll");
                 if (hash != serverHash) {
-                    await Downloader.Download($"https://kyber.gg/api/downloads/distributions/{Config.Settings.KyberChannel}/dll", KyberPath, new Progress<double>());
+                    await Downloader.DownloadFile($"https://kyber.gg/api/downloads/distributions/{Config.Settings.KyberChannel}/dll", KyberPath);
                 }
             }
             catch (Exception e) {
