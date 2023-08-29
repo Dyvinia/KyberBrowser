@@ -24,12 +24,12 @@ namespace KyberBrowser {
     public class Config : SettingsManager<Config> {
         public bool UpdateChecker { get; set; } = true;
         public bool RunAsAdmin { get; set; } = true;
-        public bool UseSteamFix { get; set; } = true;
         public bool ShowTagsInBrowser { get; set; } = true;
 
         public string KyberChannel { get; set; } = "stable";
         public string BF2Path { get; set; } = String.Empty;
         public string FrostyPath { get; set; } = String.Empty;
+        public string LaunchFixMethod { get; set; } = "SteamFix";
 
         public string SelectedModData { get; set; } = "Vanilla";
     }

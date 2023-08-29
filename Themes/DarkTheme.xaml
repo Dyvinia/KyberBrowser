@@ -2113,7 +2113,7 @@
                                           Grid.Row="0" Focusable="False"
                                           HorizontalAlignment="Center" RecognizesAccessKey="True" 
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                          VerticalAlignment="Center" Margin="0 0 0 0"/>
+                                          VerticalAlignment="Center" Margin="0 0 0 0" Opacity="0.75"/>
                         <Border x:Name="radioButtonMark" Grid.Row="1" Background="#6fffffff" SnapsToDevicePixels="True" CornerRadius="1.5"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -2123,6 +2123,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Background" TargetName="radioButtonMark" Value="#afffffff"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.85"/>
                             <Setter Property="Foreground" Value="{StaticResource ControlDefaultBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
@@ -2130,9 +2131,11 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Background" TargetName="radioButtonMark" Value="#cfffffff"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.9"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Background" TargetName="radioButtonMark" Value="#ffffffff"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

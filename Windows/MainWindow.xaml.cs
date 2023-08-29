@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DyviniaUtils;
 using KyberBrowser.Dialogs;
 
 namespace KyberBrowser {
@@ -173,22 +175,77 @@ namespace KyberBrowser {
             }
         }
 
-        private void LaunchGame() {
+        private async void LaunchGame() {
             if (ModDataComboBox.SelectedItem is null || ((DirectoryInfo)ModDataComboBox.SelectedItem).Name == "Vanilla")
                 Process.Start(new ProcessStartInfo(Config.Settings.BF2Path));
             else {
                 string args = $"-dataPath \"{Path.Combine("ModData", ((DirectoryInfo)ModDataComboBox.SelectedItem).Name)}\"";
-
-                // Steam
                 string steamAppIdPath = Path.Combine(Path.GetDirectoryName(Config.Settings.BF2Path) ?? "", "steam_appid.txt");
-                if (File.Exists(steamAppIdPath) && Config.Settings.UseSteamFix) {
+
+                if (Config.Settings.LaunchFixMethod == "DatapathFix") {
+                    string dpFixDirectory = Path.Combine(Path.GetDirectoryName(Config.FilePath), "DatapathFix");
+                    Directory.CreateDirectory(dpFixDirectory);
+
+                    string dpFixPath = Path.Combine(dpFixDirectory, "DatapathFix.exe");
+
+                    if (!File.Exists(dpFixPath)) {
+                        string url = "https://github.com/Dyvinia/DatapathFixPlugin/releases/latest/download/DatapathFix.zip";
+                        string dpFixZip = Path.Combine(dpFixDirectory, "temp.zip");
+
+                        await Downloader.DownloadFile(url, dpFixZip);
+
+                        using ZipArchive archive = ZipFile.OpenRead(dpFixZip);
+                        foreach (ZipArchiveEntry entry in archive.Entries.Where(e => e.FullName.Contains("DatapathFix.exe"))) {
+                            entry.ExtractToFile(Path.Combine(dpFixPath), true);
+                        }
+                        File.Delete(dpFixZip);
+                    }
+                    try {
+                        // reset gamedir
+                        // only delete game.old if it is less than 1MB to ensure it does not delete the actual game
+                        string gameOld = Config.Settings.BF2Path.Replace(".exe", ".old");
+                        if (File.Exists(gameOld) && new FileInfo(gameOld).Length < 1000000) {
+                            File.Delete(gameOld);
+                        }
+
+                        if (File.Exists(Config.Settings.BF2Path.Replace(".exe", ".orig.exe")) && new FileInfo(Config.Settings.BF2Path).Length < 1000000) {
+                            File.Delete(Config.Settings.BF2Path);
+                            File.Move(Config.Settings.BF2Path.Replace(".exe", ".orig.exe"), Config.Settings.BF2Path);
+                        }
+
+                        File.WriteAllText(Path.Combine(Path.GetDirectoryName(Config.Settings.BF2Path), "tmp"), args);
+
+                        File.Move(Config.Settings.BF2Path, Config.Settings.BF2Path.Replace(".exe", ".orig.exe"));
+
+                        File.Copy(dpFixPath, Config.Settings.BF2Path, true);
+
+                        Process.Start(new ProcessStartInfo(Config.Settings.BF2Path, args) { 
+                            UseShellExecute = true, 
+                            WorkingDirectory = Path.GetDirectoryName(Config.Settings.BF2Path) 
+                        });
+                    }
+                    catch (Exception e) {
+                        MessageBoxDialog.Show("Unable To Setup DatapathFix:\n" + e.Message + "\nAttempting to Launch Game...", Title, MessageBoxButton.OK, DialogSound.Error);
+
+                        // Launch as Normal
+                        Process.Start(new ProcessStartInfo(Config.Settings.BF2Path, args) {
+                            UseShellExecute = true,
+                            WorkingDirectory = Path.GetDirectoryName(Config.Settings.BF2Path)
+                        });
+                    }
+                }
+                // SteamFix
+                else if (Config.Settings.LaunchFixMethod == "SteamFix" && File.Exists(steamAppIdPath)) {
                     string steamAppId = File.ReadAllLines(steamAppIdPath).First();
                     string url = Uri.EscapeDataString(args);
                     Process.Start(new ProcessStartInfo($"steam://run/{steamAppId}//{url}/") { UseShellExecute = true });
                 }
-                // EAD/Origin
+                // Launch as Normal
                 else {
-                    Process.Start(new ProcessStartInfo(Config.Settings.BF2Path, args));
+                    Process.Start(new ProcessStartInfo(Config.Settings.BF2Path, args) {
+                        UseShellExecute = true,
+                        WorkingDirectory = Path.GetDirectoryName(Config.Settings.BF2Path)
+                    });
                 }
             }
         }

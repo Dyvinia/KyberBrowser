@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using KyberBrowser.Dialogs;
 using Microsoft.Win32;
@@ -14,6 +15,8 @@ namespace KyberBrowser {
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class SettingsWindow : Window {
+
+        private readonly List<RadioButton> launchFixRadioButtons;
 
         public SettingsWindow() {
             InitializeComponent();
@@ -27,7 +30,19 @@ namespace KyberBrowser {
 
             InitfsFixButton.Click += (s, e) => InstallInitfs();
 
-            Loaded += (_, _) => UpdateModDataComboBox();
+            launchFixRadioButtons = new() {
+                LFixNone,
+                LFixSteam,
+                LFixDP
+            };
+
+            foreach (RadioButton rb in launchFixRadioButtons)
+                rb.Checked += (s, e) => Config.Settings.LaunchFixMethod = launchFixRadioButtons.FirstOrDefault(b => b.IsChecked == true).Content.ToString();
+
+            Loaded += (_, _) => {
+                UpdateModDataComboBox();
+                UpdateLaunchFixUI();
+            };
 
             DataContext = Config.Settings;
         }
@@ -45,6 +60,12 @@ namespace KyberBrowser {
             };
             Process process = new() { StartInfo = startInfo };
             process.Start();
+        }
+
+        private void UpdateLaunchFixUI() {
+            RadioButton selectedFix = launchFixRadioButtons.FirstOrDefault(b => b.Content.ToString() == Config.Settings.LaunchFixMethod);
+            if (selectedFix is not null)
+                selectedFix.IsChecked = true;
         }
 
         private void ResetSettings() {

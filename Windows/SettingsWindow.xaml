@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KyberBrowser"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Width="500" Height="450" SizeToContent="Height" UseLayoutRounding="True"
+        Width="500" Height="600" SizeToContent="Height" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         Title="KyberBrowser v1.0.0"
         Style="{DynamicResource CustomWindowStyle}" >
@@ -18,7 +18,7 @@
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0.05">
                     <GradientStop Color="#ff020202"/>
-                    <GradientStop Color="#aa000000" Offset="0.4"/>
+                    <GradientStop Color="#cc000000" Offset="0.5"/>
                 </LinearGradientBrush>
             </Grid.Background>
             <Grid.RowDefinitions>
@@ -34,15 +34,10 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Orientation="Vertical">
-                    <TextBlock Text="Release Channel" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
-                    <TextBox x:Name="DLLChannel" Height="25" Text="{Binding Path=(local:Config.KyberChannel), Mode=TwoWay}" VerticalAlignment="Top" VerticalContentAlignment="Center" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <Separator Opacity="0" Height="10"/>
                     <TextBlock Text="Battlefront II Location" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -59,7 +54,7 @@
                     </Grid>
 
 
-                    <Separator Opacity="0" Height="10"/>
+                    <Separator Opacity="0" Height="8"/>
                     <TextBlock Text="Frosty Location" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -76,9 +71,45 @@
                     </Grid>
                 </StackPanel>
 
-                <CheckBox Grid.Row="2" Margin="0 12 0 0" VerticalAlignment="Center" IsChecked="{Binding Path=(local:Config.RunAsAdmin), Mode=TwoWay}">
-                    <TextBlock Text="Require Administrator" Margin="-4,0" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
-                </CheckBox>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <Separator Opacity="0" Height="8"/>
+                    <TextBlock Text="Release Channel" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
+                    <TextBox x:Name="DLLChannel" Height="25" Text="{Binding Path=(local:Config.KyberChannel), Mode=TwoWay}" VerticalAlignment="Top" VerticalContentAlignment="Center" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Vertical">
+                    <CheckBox  Margin="0 12 0 0" VerticalAlignment="Center" IsChecked="{Binding Path=(local:Config.UpdateChecker), Mode=TwoWay}">
+                        <TextBlock Text="Check for Updates" Margin="-4,0" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
+                    </CheckBox>
+
+                    <CheckBox  Margin="0 12 0 0" VerticalAlignment="Center" IsChecked="{Binding Path=(local:Config.RunAsAdmin), Mode=TwoWay}">
+                        <TextBlock Text="Require Administrator" Margin="-4,0" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18" TextAlignment="Left"/>
+                    </CheckBox>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0 10 0 0">
+                    
+                        <StackPanel>
+                            <TextBlock Text="Launch Fix:" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="18"/>
+                        <Border Background="#bb000000" BorderThickness="1" BorderBrush="#6fffffff">
+                            <Grid Margin="4" Height="26">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Grid.Column="0" x:Name="LFixNone" Content="None" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" IsChecked="True"/>
+                                <RadioButton Grid.Column="2" x:Name="LFixSteam" Content="SteamFix" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16"/>
+                                <RadioButton Grid.Column="4" x:Name="LFixDP" Content="DatapathFix" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16"/>
+                            </Grid>
+
+                        </Border>
+                    </StackPanel>
+
+                    <Separator Opacity="1" Margin="0 12 0 -8"/>
+                </StackPanel>
             </Grid>
 
             <StackPanel Orientation="Vertical" Grid.Row="3" Margin="25,0">
