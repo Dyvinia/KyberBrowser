@@ -114,16 +114,18 @@
                         </StackPanel>
 
                         <TextBlock Text="Host Faction:" Margin="0 2 0 0" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3" TextWrapping="Wrap"/>
-                        <Grid Margin="0 2 0 0" Height="26">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="4"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <RadioButton x:Name="LightFactionRadio" Grid.Column="0" Content="Light" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" IsChecked="True"/>
-                            <RadioButton Grid.Column="2" Content="Dark" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16"/>
-                        </Grid>
-
+                        <Border Background="#bb000000" BorderThickness="1" BorderBrush="#6fffffff">
+                            <Grid Margin="4" Height="24">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="LightFactionRadio" Grid.Column="0" Content="Light" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16" IsChecked="True"/>
+                                <RadioButton Grid.Column="2" Content="Dark" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" FontSize="16"/>
+                            </Grid>
+                        </Border>
+                        
                         <CheckBox x:Name="AutoBalanceCheckbox" VerticalAlignment="Center" Margin="0,8,0,0" IsChecked="True">
                             <TextBlock Text="Auto Balance Teams" Margin="-4,0" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3"  TextAlignment="Left"/>
                         </CheckBox>
