@@ -77,7 +77,7 @@ namespace KyberBrowser {
 
         private void RedownloadButton_Click(object sender, RoutedEventArgs e) {
             App.DownloadKyber();
-            MessageBoxDialog.Show("Kyber DLL has been redownloaded", "KYBER", MessageBoxButton.OK, DialogSound.Notify);
+            MessageBoxDialog.Show("Kyber DLL has been redownloaded", "KyberBrowser", MessageBoxButton.OK, DialogSound.Notify);
         }
 
         private void UpdateModDataComboBox() {
@@ -92,13 +92,13 @@ namespace KyberBrowser {
         }
 
         private void InstallInitfs() {
-            if (MessageBoxDialog.Show("Installing InitfsFix overwrites any custom Graphics changes\nyou may have made to initfs_Win32.\n\n[If you don't know what this means press OK]", "KYBER", MessageBoxButton.OKCancel, DialogSound.Notify) == MessageBoxResult.Cancel)
+            if (MessageBoxDialog.Show("Installing InitfsFix overwrites any custom Graphics changes\nyou may have made to initfs_Win32.\n\n[If you don't know what this means press OK]", "KyberBrowser", MessageBoxButton.OKCancel, DialogSound.Notify) == MessageBoxResult.Cancel)
                 return;
 
 
             string initfsPath = Path.Combine(((DirectoryInfo)ModDataComboBox.SelectedItem).FullName, "Data", "initfs_Win32");
             if (!File.Exists(initfsPath)) {
-                MessageBoxDialog.Show($"InitfsFix has not been installed\n\\{((DirectoryInfo)ModDataComboBox.SelectedItem).Name}\\Data\\initfs_Win32 file not found", "KYBER", MessageBoxButton.OK, DialogSound.Error);
+                MessageBoxDialog.Show($"InitfsFix has not been installed\n\\{((DirectoryInfo)ModDataComboBox.SelectedItem).Name}\\Data\\initfs_Win32 file not found", "KyberBrowser", MessageBoxButton.OK, DialogSound.Error);
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace KyberBrowser {
             };
             Process.Start(startInfo).WaitForExit();
 
-            MessageBoxDialog.Show("InitfsFix has been installed", "KYBER", MessageBoxButton.OK, DialogSound.Notify);
+            MessageBoxDialog.Show("InitfsFix has been installed", "KyberBrowser", MessageBoxButton.OK, DialogSound.Notify);
 
             // Only delete the exe, just incase user wants to edit Graphics.lua
             File.Delete(initfsEditPath);

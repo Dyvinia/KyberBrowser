@@ -84,7 +84,7 @@ namespace KyberBrowser {
             if (!File.Exists(Config.Settings.BF2Path)) {
                 if (!FindBattlefrontPath()) {
                     _ = Current.Dispatcher.BeginInvoke(() => {
-                        MessageBoxDialog.Show("Unable To Locate STAR WARS Battlefront II", "KYBER", MessageBoxButton.OK, DialogSound.Error);
+                        MessageBoxDialog.Show("Unable To Locate STAR WARS Battlefront II", "KyberBrowser", MessageBoxButton.OK, DialogSound.Error);
                         new SettingsWindow().ShowDialog();
                         Config.Save();
                     });
@@ -97,8 +97,7 @@ namespace KyberBrowser {
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) {
             e.Handled = true;
-            string title = "KYBER";
-            ExceptionDialog.Show(e.Exception, title, true);
+            ExceptionDialog.Show(e.Exception, "KyberBrowser", true);
         }
 
         public static async void DownloadKyber() {
@@ -110,7 +109,7 @@ namespace KyberBrowser {
                 }
             }
             catch (Exception e) {
-                ExceptionDialog.Show(e, "KYBER", false, "Unable to download Kyber:");
+                ExceptionDialog.Show(e, "KyberBrowser", false, "Unable to download Kyber:");
                 Config.Settings.KyberChannel = "stable";
                 Config.Save();
             }
