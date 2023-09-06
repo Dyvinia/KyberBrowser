@@ -149,7 +149,7 @@ namespace KyberBrowser {
             HttpResponseMessage response = await App.HttpClient.PostAsync("https://kyber.gg/api/config/play", new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode) {
-                string message = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync())?.message;
+                string message = JsonDocument.Parse(await response.Content.ReadAsStringAsync()).RootElement.GetProperty("message").GetString();
                 MessageBoxDialog.Show("Unable To Select Server:\n" + message, this.Title, MessageBoxButton.OK, DialogSound.Error);
                 return false;
             }
