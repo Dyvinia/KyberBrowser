@@ -322,8 +322,13 @@ namespace KyberBrowser {
                     await Task.Delay(2000);
                     continue;
                 }
-                DLLInjector.Inject(game.ElementAt(0).Id, App.KyberPath);
-                injectedTo.Add(game.ElementAt(0).Id);
+                try {
+                    DLLInjector.Inject(game[0].Id, App.KyberPath);
+                    injectedTo.Add(game[0].Id);
+                }
+                catch (Exception e) {
+                    MessageBoxDialog.Show("Unable To Inject Kyber:\n" + e.Message, this.Title, MessageBoxButton.OK, DialogSound.Error);
+                }
             }
         }
 
