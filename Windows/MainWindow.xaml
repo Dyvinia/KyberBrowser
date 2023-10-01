@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KyberBrowser"
         mc:Ignorable="d"
         Title="KyberBrowser"
-        Height="630" Width="1120"
+        Height="660" Width="1200"
         MinHeight="360" MinWidth="640"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource CustomWindowStyle}" ResizeMode="CanResize">
