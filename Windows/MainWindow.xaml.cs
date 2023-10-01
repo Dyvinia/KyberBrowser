@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -351,6 +352,9 @@ namespace KyberBrowser {
 
         protected override void OnKeyDown(KeyEventArgs e) {
             base.OnKeyDown(e);
+
+            if (e.Key == Key.N && Keyboard.Modifiers == ModifierKeys.Control)
+                HostButton_Click(null, null);
 
             if (e.Key == Key.F5) {
                 RefreshServerList();
