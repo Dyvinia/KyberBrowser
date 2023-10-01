@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using KyberBrowser.Dialogs;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace KyberBrowser {
     /// <summary>
@@ -111,8 +109,15 @@ namespace KyberBrowser {
                 ModDataComboBox.SelectedIndex = 0;
         }
 
-        private async Task<bool> CreateServer(string name = null) {
+        private async Task<bool> CreateServer() => await CreateServer(null);
+
+        private async Task<bool> CreateServer(string name) {
             string serverName = name ?? NameTextBox.Text.Trim();
+
+            if (String.IsNullOrWhiteSpace(serverName)) {
+                MessageBoxDialog.Show("The Server must have a name", this.Title, MessageBoxButton.OK, DialogSound.Error);
+                return false;
+            }
 
             Dictionary<string, object> selection = new() {
                 { "autoBalanceTeams", AutoBalanceCheckbox.IsChecked == true },

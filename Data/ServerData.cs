@@ -13,9 +13,13 @@ namespace KyberBrowser {
         public string Title {
             get {
                 string title = Name;
-                foreach (Match match in Regex.Matches(Name, @"\[(.*?)\]")) {
+
+                foreach (Match match in Regex.Matches(Name, @"\[(.*?)\]").Cast<Match>())
                     title = title.Replace(match.Value, "");
-                }
+
+                if (String.IsNullOrWhiteSpace(title))
+                    title = "Server";
+
                 return title.Trim();
             }
         }
