@@ -164,11 +164,20 @@ namespace KyberBrowser {
             if (!File.Exists(mapsModesPath))
                 File.WriteAllText(mapsModesPath, new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.MapsModes.json")).ReadToEnd());
 
-            dynamic mapsModes = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(mapsModesPath));
+            try {
+                dynamic mapsModes = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(mapsModesPath));
 
-            Maps = mapsModes.Maps.ToObject<Dictionary<string, string>>();
-            Modes = mapsModes.Modes.ToObject<Dictionary<string, dynamic>>();
-            ModOverrides = mapsModes.ModOverrides.ToObject<Dictionary<string, Dictionary<string, string>>>();
+                Maps = mapsModes.Maps.ToObject<Dictionary<string, string>>();
+                Modes = mapsModes.Modes.ToObject<Dictionary<string, dynamic>>();
+                ModOverrides = mapsModes.ModOverrides.ToObject<Dictionary<string, Dictionary<string, string>>>();
+            }
+            catch (Exception e) {
+                Task.Run(new Action(() => {
+                    ExceptionDialog.Show(e, "KyberBrowser", false, "Unable to load MapsModes.json: Reverting file.\nNOTE: The file will not be reverted until this window is closed.\n\nException:");
+                    File.WriteAllText(mapsModesPath, new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.MapsModes.json")).ReadToEnd());
+                    Environment.Exit(0);
+                }));
+            }
         }
 
         private static string ToHex(byte[] bytes, bool upperCase) {

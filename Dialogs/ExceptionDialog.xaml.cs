@@ -25,8 +25,8 @@ namespace KyberBrowser.Dialogs {
             if (messagePrefix != null) 
                 message = messagePrefix + Environment.NewLine + message;
             if (ex.InnerException != null)
-                message += Environment.NewLine + Environment.NewLine + ex.InnerException;
-            message += Environment.NewLine + Environment.NewLine + ex.StackTrace;
+                message += Environment.NewLine + ex.InnerException;
+            message += Environment.NewLine + ex.StackTrace;
             ExceptionText.Text = message;
 
             CloseButton.Click += (s, e) => Close();
