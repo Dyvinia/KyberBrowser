@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Newtonsoft.Json;
 
 namespace KyberBrowser {
     public class ServerData {
@@ -61,7 +59,11 @@ namespace KyberBrowser {
 
         public string Thumbnail {
             get {
-                return $"https://kyber.gg/static/images/maps/{Map.Replace('/', '-')}.jpg";
+                string thumbUrl = $"https://kyber.gg/static/images/maps/{Map.Replace('/', '-')}.jpg";
+                HttpResponseMessage response = App.HttpClient.GetAsync(thumbUrl).Result;
+                if (response.Content.Headers.ContentType.ToString().StartsWith("image/"))
+                    return thumbUrl;
+                else return "https://kyber.gg/bg.png";
             }
         }
 
