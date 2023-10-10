@@ -127,7 +127,9 @@ namespace KyberBrowser {
 
             public string LinkVerified { 
                 get {
-                    if (Uri.IsWellFormedUriString(Link, UriKind.Absolute) && (Link.Contains("https://www.nexusmods.com") || Link.Contains("https://www.moddb.com/")))
+                    if (Name.Contains("Battlefront Plus - Kyber"))
+                        return "https://battlefront.plus/";
+                    else if (Uri.IsWellFormedUriString(Link, UriKind.Absolute) && (Link.Contains("https://www.nexusmods.com") || Link.Contains("https://www.moddb.com/")))
                         return Link;
                     return "";
                 } 

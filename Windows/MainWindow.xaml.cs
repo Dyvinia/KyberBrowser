@@ -281,7 +281,7 @@ namespace KyberBrowser {
             ServerData.ModData mod = ((FrameworkElement)sender).DataContext as ServerData.ModData;
 
             if (Uri.IsWellFormedUriString(mod.LinkVerified, UriKind.Absolute)) {
-                Process.Start(new ProcessStartInfo(mod.Link) { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo(mod.LinkVerified) { UseShellExecute = true });
             }
         }
 
