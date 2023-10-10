@@ -167,7 +167,7 @@ namespace KyberBrowser {
             dynamic mapsModes = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(mapsModesPath));
 
             Maps = mapsModes.Maps.ToObject<Dictionary<string, string>>();
-            Modes = ((List<dynamic>)mapsModes.Modes.ToObject<List<dynamic>>()).ToDictionary(m => (string)m.Mode, m => m);
+            Modes = mapsModes.Modes.ToObject<Dictionary<string, dynamic>>();
             ModOverrides = mapsModes.ModOverrides.ToObject<Dictionary<string, Dictionary<string, string>>>();
         }
 

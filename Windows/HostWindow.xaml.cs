@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,16 +35,12 @@ namespace KyberBrowser {
         }
 
         private void GetMaps() {
+            Dictionary<string, string> mapOverrides = ((dynamic)ModeComboBox.SelectedItem).Value.MapOverrides?.ToObject<Dictionary<string, string>>();
             string[] selectedMapKeys = ((dynamic)ModeComboBox.SelectedItem).Value.Maps.ToObject<string[]>();
 
-            Dictionary<string, string> selectedMaps = App.Maps.Where(m => selectedMapKeys.Contains(m.Key)).ToDictionary(k => k.Key, k => k.Value);
-
-            List<dynamic> mapOverrides = ((dynamic)ModeComboBox.SelectedItem).Value.MapOverrides?.ToObject<List<dynamic>>();
-            if (selectedMaps is not null) {
-                foreach (var selectedMap in selectedMaps) {
-                    selectedMaps[selectedMap.Key] = mapOverrides.FirstOrDefault(m => m.Map == selectedMap.Key)?.Name ?? selectedMap.Value;
-                }
-            }
+            Dictionary<string, string> selectedMaps = App.Maps.Where(m => selectedMapKeys.Contains(m.Key)).ToDictionary(k => k.Key, k => k.Value) ?? new();
+            foreach (KeyValuePair<string, string> selectedMap in selectedMaps)
+                selectedMaps[selectedMap.Key] = mapOverrides?.FirstOrDefault(m => m.Key == selectedMap.Key).Value ?? selectedMap.Value;
 
             MapComboBox.ItemsSource = selectedMaps;
             MapComboBox.SelectedIndex = 0;
@@ -106,9 +101,9 @@ namespace KyberBrowser {
                 { "displayInBrowser", true },
                 { "faction", LightFactionRadio.IsChecked == true ? 0 : 1 },
                 { "kyberProxy", ((ProxyData)PingSiteComboBox.SelectedItem).IP },
-                { "map", (string)((dynamic)MapComboBox.SelectedItem)?.map },
+                { "map", ((KeyValuePair<string, string>)MapComboBox.SelectedItem).Key },
                 { "maxPlayers", 40 },
-                { "mode", (string)((dynamic)ModeComboBox.SelectedItem)?.mode },
+                { "mode", ((KeyValuePair<string, dynamic>)ModeComboBox.SelectedItem).Key },
                 { "name", serverName },
                 { "password", PassTextBox.Text }
             };
