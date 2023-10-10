@@ -52,6 +52,9 @@ namespace KyberBrowser {
 
         public static Dictionary<string, ProxyData> Proxies { get; private set; } = new();
 
+        public static Dictionary<string, string> Maps { get; private set; } = new();
+        public static Dictionary<string, dynamic> Modes { get; private set; } = new();
+        public static Dictionary<string, Dictionary<string, string>> ModOverrides { get; private set; } = new();
 
         public App() {
             Config.Load();
@@ -60,6 +63,7 @@ namespace KyberBrowser {
 
             DownloadKyber();
             GetProxies();
+            GetMapsModes();
         }
 
         protected override async void OnStartup(StartupEventArgs e) {
@@ -152,6 +156,19 @@ namespace KyberBrowser {
             });
 
             Proxies = proxies.ToDictionary(p => p.IP, p => p);
+        }
+
+        public static void GetMapsModes() {
+            string mapsModesPath = Path.Combine(Path.GetDirectoryName(Config.FilePath), "MapsModes.json");
+
+            if (!File.Exists(mapsModesPath))
+                File.WriteAllText(mapsModesPath, new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.MapsModes.json")).ReadToEnd());
+
+            dynamic mapsModes = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(mapsModesPath));
+
+            Maps = mapsModes.Maps.ToObject<Dictionary<string, string>>();
+            Modes = ((List<dynamic>)mapsModes.Modes.ToObject<List<dynamic>>()).ToDictionary(m => (string)m.Mode, m => m);
+            ModOverrides = mapsModes.ModOverrides.ToObject<Dictionary<string, Dictionary<string, string>>>();
         }
 
         private static string ToHex(byte[] bytes, bool upperCase) {

@@ -42,7 +42,7 @@
 		<Resource Include="Resources\kyber_logo.ico" />
 		<Resource Include="Resources\kyber_bg2.png" />
 		<Resource Include="Resources\refresh.png" />
-		<EmbeddedResource Include="Resources\Constants.json" />
+		<EmbeddedResource Include="Resources\MapsModes.json" />
 		<EmbeddedResource Include="Resources\Graphics.lua" />
 		<EmbeddedResource Include="Resources\InitfsEdit.exe" />
 	</ItemGroup>

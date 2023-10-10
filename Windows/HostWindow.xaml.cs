@@ -29,40 +29,21 @@ namespace KyberBrowser {
 
             MouseDown += (s, e) => FocusManager.SetFocusedElement(this, this);
 
-            GetModes();
+            ModeComboBox.ItemsSource = App.Modes;
+            ModeComboBox.SelectedIndex = 0;
 
             ModDataComboBox.ItemsSource = App.ModDataList;
         }
 
-        private void GetModes() {
-            dynamic constants = JsonConvert.DeserializeObject<dynamic>(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.Constants.json")).ReadToEnd());
-
-            List<dynamic> modes = constants.modes.ToObject<List<dynamic>>();
-
-            ModeComboBox.ItemsSource = modes;
-            ModeComboBox.SelectedIndex = 0;
-        }
-
         private void GetMaps() {
-            dynamic constants = JsonConvert.DeserializeObject<dynamic>(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.Constants.json")).ReadToEnd());
+            string[] selectedMapKeys = ((dynamic)ModeComboBox.SelectedItem).Value.Maps.ToObject<string[]>();
 
-            List<dynamic> mapOverrides = ((dynamic)ModeComboBox.SelectedItem).mapOverrides?.ToObject<List<dynamic>>();
+            Dictionary<string, string> selectedMaps = App.Maps.Where(m => selectedMapKeys.Contains(m.Key)).ToDictionary(k => k.Key, k => k.Value);
 
-            List<dynamic> maps = constants.maps.ToObject<List<dynamic>>();
-
-
-            List<string> selectedMapKeys = ((dynamic)ModeComboBox.SelectedItem).maps.ToObject<List<string>>();
-
-            List<dynamic> selectedMaps = new();
-            foreach (dynamic map in maps) {
-                if (selectedMapKeys.Contains((string)map.map)) {
-                    selectedMaps.Add(map);
-                }
-            }
-
-            if (mapOverrides is not null) {
-                foreach (dynamic selectedMap in selectedMaps) {
-                    selectedMap.name = mapOverrides.FirstOrDefault(m => m.map == selectedMap.map)?.name ?? selectedMap.name;
+            List<dynamic> mapOverrides = ((dynamic)ModeComboBox.SelectedItem).Value.MapOverrides?.ToObject<List<dynamic>>();
+            if (selectedMaps is not null) {
+                foreach (var selectedMap in selectedMaps) {
+                    selectedMaps[selectedMap.Key] = mapOverrides.FirstOrDefault(m => m.Map == selectedMap.Key)?.Name ?? selectedMap.Value;
                 }
             }
 
@@ -83,7 +64,7 @@ namespace KyberBrowser {
         }
 
         private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            GetMaps(); // this code is such a mess
+            GetMaps();
         }
 
         private void MaxPlayersTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e) {

@@ -41,15 +41,16 @@ namespace KyberBrowser {
 
         public string Subtitle {
             get {
-                dynamic constants = JsonConvert.DeserializeObject<dynamic>(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.Constants.json")).ReadToEnd());
+                if (!App.Maps.TryGetValue(Map, out string mapName))
+                    mapName = "Custom Mode";
 
-                string mapName = ((List<dynamic>)constants.maps.ToObject<List<dynamic>>()).FirstOrDefault(m => m.map == Map)?.name ?? "Custom Map";
-                string modeName = ((List<dynamic>)constants.modes.ToObject<List<dynamic>>()).FirstOrDefault(m => m.mode == Mode)?.name ?? "Custom Mode";
+                string modeName = "Custom Mode";
+                if (App.Modes.TryGetValue(Mode, out dynamic mode))
+                    modeName = mode.Name;
 
-                // BF+ Override for custom 'Bounty Hunt' gamemode, replacing Mode6 (Hero Showdown)
-                if (Mods.Any(m => m.Name.Contains("Battlefront Plus - Kyber")) && Mode == "Mode6") {
-                    modeName = "Bounty Hunt";
-                }
+                Dictionary<string, string> modOverrides = App.ModOverrides.FirstOrDefault(m => Mods.Any(o => o.Name.Contains(m.Key))).Value ?? new();
+                if (modOverrides.TryGetValue(Mode, out string moddedMode))
+                    modeName = moddedMode;
 
                 if (Official)
                     return $"{modeName} - {mapName}";

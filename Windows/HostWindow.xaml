@@ -99,12 +99,12 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Mode:" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3" TextWrapping="Wrap"/>
-                                <ComboBox x:Name="ModeComboBox" DisplayMemberPath="name" SelectionChanged="ModeComboBox_SelectionChanged" Margin="0 2 0 4" ToolTip="Select Gamemode" Height="30" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" Padding="6 0 0 0" FontSize="16" VerticalContentAlignment="Center" Foreground="#FFA3A3A3"/>
+                                <ComboBox x:Name="ModeComboBox" DisplayMemberPath="Value.Name" SelectionChanged="ModeComboBox_SelectionChanged" Margin="0 2 0 4" ToolTip="Select Gamemode" Height="30" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" Padding="6 0 0 0" FontSize="16" VerticalContentAlignment="Center" Foreground="#FFA3A3A3"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Orientation="Vertical">
                                 <TextBlock Text="Map:" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3" TextWrapping="Wrap"/>
-                                <ComboBox x:Name="MapComboBox" DisplayMemberPath="name" Margin="0 2 0 4" ToolTip="Select Map" Height="30" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" Padding="6 0 0 0" FontSize="16" VerticalContentAlignment="Center" Foreground="#FFA3A3A3"/>
+                                <ComboBox x:Name="MapComboBox" DisplayMemberPath="Value" Margin="0 2 0 4" ToolTip="Select Map" Height="30" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" Padding="6 0 0 0" FontSize="16" VerticalContentAlignment="Center" Foreground="#FFA3A3A3"/>
                             </StackPanel>
                         </Grid>
 
