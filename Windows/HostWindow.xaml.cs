@@ -35,6 +35,8 @@ namespace KyberBrowser {
         }
 
         private void GetMaps() {
+            if (ModeComboBox.SelectedItem is null) return;
+
             Dictionary<string, string> mapOverrides = ((dynamic)ModeComboBox.SelectedItem).Value.MapOverrides?.ToObject<Dictionary<string, string>>();
             string[] selectedMapKeys = ((dynamic)ModeComboBox.SelectedItem).Value.Maps.ToObject<string[]>();
 
@@ -58,9 +60,7 @@ namespace KyberBrowser {
                 PingSiteComboBox.SelectedIndex = 0;
         }
 
-        private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            GetMaps();
-        }
+        private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => GetMaps();
 
         private void MaxPlayersTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e) {
             TextBox tBox = (TextBox)sender;
@@ -74,6 +74,31 @@ namespace KyberBrowser {
                 tBox.Text = "64";
             else if (val < 2)
                 tBox.Text = "2";
+        }
+
+        private void ModDataComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (ModDataComboBox.SelectedItem is null) return;
+
+            Dictionary<string, dynamic> selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.DeepClone());
+
+            DirectoryInfo selectedModData = ModDataComboBox.SelectedItem as DirectoryInfo;
+            string selectedModsJson = Path.Combine(selectedModData.FullName, "patch", "mods.json");
+            if (File.Exists(selectedModsJson)) {
+                // reset modes
+                selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.DeepClone());
+                dynamic[] mods = JsonConvert.DeserializeObject<dynamic[]>(File.ReadAllText(selectedModsJson));
+
+                Dictionary<string, string> modOverrides = App.ModOverrides.FirstOrDefault(m => mods.Any(o => ((string)o.name).Contains(m.Key))).Value ?? new();
+                foreach (var modOverride in modOverrides) {
+                    if (selectedModes.ContainsKey(modOverride.Key))
+                        selectedModes[modOverride.Key].Name = modOverride.Value;
+                }
+            }
+
+            // refresh combobox
+            int selectedIndex = ModeComboBox.SelectedIndex;
+            ModeComboBox.ItemsSource = selectedModes;
+            ModeComboBox.SelectedIndex = selectedIndex;
         }
 
         public void UpdateModDataComboBox() {

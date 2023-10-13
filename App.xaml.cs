@@ -61,9 +61,11 @@ namespace KyberBrowser {
 
             DispatcherUnhandledException += Application_DispatcherUnhandledException;
 
-            DownloadKyber();
-            GetProxies();
-            GetMapsModes();
+            Task.Run(() => {
+                DownloadKyber();
+                GetProxies();
+                GetMapsModes();
+            });
         }
 
         protected override async void OnStartup(StartupEventArgs e) {

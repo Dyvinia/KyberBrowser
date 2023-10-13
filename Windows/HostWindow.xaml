@@ -134,7 +134,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <ComboBox x:Name="ModDataComboBox" DisplayMemberPath="Name" Margin="0 0 0 4" ToolTip="Select ModData" Height="30" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" Padding="6 0 0 0" FontSize="16" VerticalContentAlignment="Center" Foreground="#FFA3A3A3"/>
+                        <ComboBox x:Name="ModDataComboBox" DisplayMemberPath="Name" Margin="0 0 0 4" ToolTip="Select ModData" Height="30" FontFamily="/Fonts/Univers.ttf #Linotype Univers 520 CnMedium" Padding="6 0 0 0" FontSize="16" VerticalContentAlignment="Center" Foreground="#FFA3A3A3" SelectionChanged="ModDataComboBox_SelectionChanged"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
