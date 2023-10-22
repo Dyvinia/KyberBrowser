@@ -31,7 +31,8 @@ namespace KyberBrowser {
             ModeComboBox.ItemsSource = App.Modes;
             ModeComboBox.SelectedIndex = 0;
 
-            ModDataComboBox.ItemsSource = App.ModDataList;
+            App.GetModData();
+            ModDataComboBox.ItemsSource = App.ModDataList.ToList();
         }
 
         private void GetMaps() {
@@ -44,8 +45,14 @@ namespace KyberBrowser {
             foreach (KeyValuePair<string, string> selectedMap in selectedMaps)
                 selectedMaps[selectedMap.Key] = mapOverrides?.FirstOrDefault(m => m.Key == selectedMap.Key).Value ?? selectedMap.Value;
 
+            string selectedValue = String.Empty;
+            if (MapComboBox.SelectedItem is not null)
+                selectedValue = ((KeyValuePair<string, string>)MapComboBox.SelectedItem).Value;
             MapComboBox.ItemsSource = selectedMaps;
-            MapComboBox.SelectedIndex = 0;
+            MapComboBox.SelectedItem = selectedMaps.FirstOrDefault(m => m.Value == selectedValue);
+
+            if (MapComboBox.SelectedItem is null)
+                MapComboBox.SelectedIndex = 0;
         }
 
         public void UpdatePingSiteComboBox() {
