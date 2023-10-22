@@ -264,7 +264,7 @@ namespace KyberBrowser {
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             string selectedID = ((ServerData)ServerListBox.SelectedItem)?.ID;
 
-            ServerListBox.Items.Filter = o => { return ((ServerData)o).Name.ToLower().Contains(FilterTextBox.Text.ToLower()); };
+            ServerListBox.Items.Filter = o => ((ServerData)o).Name.ToLower().Contains(FilterTextBox.Text.ToLower());
 
             ServerListBox.SelectedItem = ((List<ServerData>)ServerListBox.ItemsSource).FirstOrDefault(s => s.ID == selectedID);
         }
