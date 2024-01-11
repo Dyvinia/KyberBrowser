@@ -35,7 +35,8 @@ namespace KyberBrowser {
             App.GetModData();
             ModDataComboBox.ItemsSource = App.ModDataList.ToList();
 
-            CheckKyberConfig();
+            try { CheckKyberConfig(); }
+            catch { }
         }
 
         private async void CheckKyberConfig() {
