@@ -13,6 +13,7 @@ using System.Windows.Input;
 using KyberBrowser.Dialogs;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace KyberBrowser {
     /// <summary>
@@ -33,6 +34,30 @@ namespace KyberBrowser {
 
             App.GetModData();
             ModDataComboBox.ItemsSource = App.ModDataList.ToList();
+
+            CheckKyberConfig();
+        }
+
+        private async void CheckKyberConfig() {
+            JsonDocument configJson = JsonDocument.Parse(await App.HttpClient.GetStringAsync("https://kyber.gg/api/config/"));
+            if (configJson.RootElement.GetProperty("KYBER_MODE").GetString() != "SERVER")
+                return;
+
+            JsonElement serverOptions = configJson.RootElement.GetProperty("SERVER_OPTIONS");
+
+            AutoBalanceCheckbox.IsChecked = serverOptions.GetProperty("AUTO_BALANCE_TEAMS").GetBoolean();
+
+            NameTextBox.Text = serverOptions.GetProperty("NAME").GetString();
+
+            PassTextBox.Text = serverOptions.GetProperty("PASSWORD").GetString();
+
+            DescTextBox.Text = Encoding.UTF8.GetString(Convert.FromBase64String(serverOptions.GetProperty("DESCRIPTION").GetString()));
+
+            ModeComboBox.SelectedIndex = ((Dictionary<string, dynamic>)ModeComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MODE").GetString());
+
+            MapComboBox.SelectedIndex = ((Dictionary<string, string>)MapComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MAP").GetString());
+
+            MaxPlayersTextBox.Text = serverOptions.GetProperty("MAX_PLAYERS").GetInt32().ToString();
         }
 
         private void GetMaps() {
@@ -134,7 +159,7 @@ namespace KyberBrowser {
                 { "faction", LightFactionRadio.IsChecked == true ? 0 : 1 },
                 { "kyberProxy", ((ProxyData)PingSiteComboBox.SelectedItem).IP },
                 { "map", ((KeyValuePair<string, string>)MapComboBox.SelectedItem).Key },
-                { "maxPlayers", 40 },
+                { "maxPlayers", Int32.Parse(MaxPlayersTextBox.Text) },
                 { "mode", ((KeyValuePair<string, dynamic>)ModeComboBox.SelectedItem).Key },
                 { "name", serverName },
                 { "password", PassTextBox.Text }
