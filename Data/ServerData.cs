@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using KyberBrowser.Data;
 
 namespace KyberBrowser {
     public class ServerData {
@@ -43,7 +44,7 @@ namespace KyberBrowser {
                     mapName = "Custom Mode";
 
                 string modeName = "Custom Mode";
-                if (App.Modes.TryGetValue(Mode, out dynamic mode))
+                if (App.Modes.TryGetValue(Mode, out ModeData mode))
                     modeName = mode.Name;
 
                 Dictionary<string, string> modOverrides = App.ModOverrides.FirstOrDefault(m => Mods.Any(o => o.Name.Contains(m.Key))).Value ?? new();

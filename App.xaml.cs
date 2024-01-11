@@ -17,6 +17,7 @@ using System.Net.NetworkInformation;
 using Microsoft.Win32;
 using KyberBrowser.Dialogs;
 using DyviniaUtils;
+using KyberBrowser.Data;
 
 namespace KyberBrowser {
 
@@ -53,7 +54,7 @@ namespace KyberBrowser {
         public static Dictionary<string, ProxyData> Proxies { get; private set; } = new();
 
         public static Dictionary<string, string> Maps { get; private set; } = new();
-        public static Dictionary<string, dynamic> Modes { get; private set; } = new();
+        public static Dictionary<string, ModeData> Modes { get; private set; } = new();
         public static Dictionary<string, Dictionary<string, string>> ModOverrides { get; private set; } = new();
 
         public App() {
@@ -167,11 +168,11 @@ namespace KyberBrowser {
                 File.WriteAllText(mapsModesPath, new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.MapsModes.json")).ReadToEnd());
 
             try {
-                dynamic mapsModes = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(mapsModesPath));
+                JsonDocument mapsModesJson = JsonDocument.Parse(File.ReadAllText(mapsModesPath));
 
-                Maps = mapsModes.Maps.ToObject<Dictionary<string, string>>();
-                Modes = mapsModes.Modes.ToObject<Dictionary<string, dynamic>>();
-                ModOverrides = mapsModes.ModOverrides.ToObject<Dictionary<string, Dictionary<string, string>>>();
+                Maps = JsonSerializer.Deserialize<Dictionary<string, string>>(mapsModesJson.RootElement.GetProperty("Maps"));
+                Modes = JsonSerializer.Deserialize<Dictionary<string, ModeData>>(mapsModesJson.RootElement.GetProperty("Modes"));
+                ModOverrides = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(mapsModesJson.RootElement.GetProperty("ModOverrides"));
             }
             catch (Exception e) {
                 Task.Run(new Action(() => {

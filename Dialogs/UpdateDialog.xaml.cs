@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Media;
 using System.Net.Http;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Navigation;
-using Newtonsoft.Json;
 
 namespace DyviniaUtils.Dialogs {
     /// <summary>
@@ -36,10 +36,10 @@ namespace DyviniaUtils.Dialogs {
             using HttpClient client = new();
             client.DefaultRequestHeaders.Add("User-Agent", "request");
             client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.html");
-            dynamic github = JsonConvert.DeserializeObject<dynamic>(client.GetStringAsync($"https://api.github.com/repos/{repoAuthor}/{repoName}/releases/latest").Result)!;
-            string htmlString = $"<head><style>body{{line-height: 1.25; background-color: #000000; color: rgb(230, 237, 243); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Noto Sans\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"}} a{{color: rgb(220, 220, 220);}} h1, h2, h3, h4, h5, h6{{line-height: 0.125;}}</style></head><body>{github.body_html}</body>";
+            JsonDocument github = JsonDocument.Parse(client.GetStringAsync($"https://api.github.com/repos/{repoAuthor}/{repoName}/releases/latest").Result);
+            string htmlString = $"<head><style>body{{line-height: 1.25; background-color: #000000; color: rgb(230, 237, 243); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Noto Sans\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"}} a{{color: rgb(220, 220, 220);}} h1, h2, h3, h4, h5, h6{{line-height: 0.125;}}</style></head><body>{github.RootElement.GetProperty("body_html").GetString()}</body>";
 
-            Header.Text = github.name;
+            Header.Text = github.RootElement.GetProperty("name").GetString();
             Browser.NavigateToString(htmlString);
             Browser.Visibility = Visibility.Visible;
         }

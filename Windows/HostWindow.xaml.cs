@@ -34,6 +34,7 @@ namespace KyberBrowser {
 
             App.GetModData();
             ModDataComboBox.ItemsSource = App.ModDataList.ToList();
+            ModDataComboBox.SelectedIndex = App.ModDataList.ToList().FindIndex(s => s.FullName == Config.Settings.SelectedModData);
 
             try { CheckKyberConfig(); }
             catch { }
@@ -54,7 +55,7 @@ namespace KyberBrowser {
 
             DescTextBox.Text = Encoding.UTF8.GetString(Convert.FromBase64String(serverOptions.GetProperty("DESCRIPTION").GetString()));
 
-            ModeComboBox.SelectedIndex = ((Dictionary<string, dynamic>)ModeComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MODE").GetString());
+            ModeComboBox.SelectedIndex = ((Dictionary<string, ModeData>)ModeComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MODE").GetString());
 
             MapComboBox.SelectedIndex = ((Dictionary<string, string>)MapComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MAP").GetString());
 
@@ -64,8 +65,8 @@ namespace KyberBrowser {
         private void GetMaps() {
             if (ModeComboBox.SelectedItem is null) return;
 
-            Dictionary<string, string> mapOverrides = ((dynamic)ModeComboBox.SelectedItem).Value.MapOverrides?.ToObject<Dictionary<string, string>>();
-            string[] selectedMapKeys = ((dynamic)ModeComboBox.SelectedItem).Value.Maps.ToObject<string[]>();
+            Dictionary<string, string> mapOverrides = ((KeyValuePair<string, ModeData>)ModeComboBox.SelectedItem).Value.MapOverrides;
+            string[] selectedMapKeys = ((KeyValuePair<string, ModeData>)ModeComboBox.SelectedItem).Value.Maps;
 
             Dictionary<string, string> selectedMaps = App.Maps.Where(m => selectedMapKeys.Contains(m.Key)).ToDictionary(k => k.Key, k => k.Value) ?? new();
             foreach (KeyValuePair<string, string> selectedMap in selectedMaps)
@@ -112,18 +113,18 @@ namespace KyberBrowser {
         private void ModDataComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (ModDataComboBox.SelectedItem is null) return;
 
-            Dictionary<string, dynamic> selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.DeepClone());
+            Dictionary<string, ModeData> selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.Clone());
 
             DirectoryInfo selectedModData = ModDataComboBox.SelectedItem as DirectoryInfo;
             string selectedModsJson = Path.Combine(selectedModData.FullName, "patch", "mods.json");
             if (File.Exists(selectedModsJson)) {
                 // reset modes
-                selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.DeepClone());
+                selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.Clone());
                 ClientModData[] mods = JsonSerializer.Deserialize<ClientModData[]>(File.ReadAllText(selectedModsJson));
 
                 Dictionary<string, string> modOverrides = App.ModOverrides.FirstOrDefault(m => mods.Any(o => o.Name.Contains(m.Key))).Value ?? new();
                 foreach (var modOverride in modOverrides) {
-                    if (selectedModes.TryGetValue(modOverride.Key, out dynamic value))
+                    if (selectedModes.TryGetValue(modOverride.Key, out ModeData value))
                         value.Name = modOverride.Value;
                 }
             }
