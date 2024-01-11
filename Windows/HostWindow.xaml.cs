@@ -6,14 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KyberBrowser.Dialogs;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using System.Text.Json;
+using KyberBrowser.Data;
 
 namespace KyberBrowser {
     /// <summary>
@@ -119,12 +119,12 @@ namespace KyberBrowser {
             if (File.Exists(selectedModsJson)) {
                 // reset modes
                 selectedModes = App.Modes.ToDictionary(m => m.Key, m => m.Value.DeepClone());
-                dynamic[] mods = JsonConvert.DeserializeObject<dynamic[]>(File.ReadAllText(selectedModsJson));
+                ClientModData[] mods = JsonSerializer.Deserialize<ClientModData[]>(File.ReadAllText(selectedModsJson));
 
-                Dictionary<string, string> modOverrides = App.ModOverrides.FirstOrDefault(m => mods.Any(o => ((string)o.name).Contains(m.Key))).Value ?? new();
+                Dictionary<string, string> modOverrides = App.ModOverrides.FirstOrDefault(m => mods.Any(o => o.Name.Contains(m.Key))).Value ?? new();
                 foreach (var modOverride in modOverrides) {
-                    if (selectedModes.ContainsKey(modOverride.Key))
-                        selectedModes[modOverride.Key].Name = modOverride.Value;
+                    if (selectedModes.TryGetValue(modOverride.Key, out dynamic value))
+                        value.Name = modOverride.Value;
                 }
             }
 
@@ -169,7 +169,7 @@ namespace KyberBrowser {
             HttpResponseMessage response = await App.HttpClient.PostAsync("https://kyber.gg/api/config/host", new StringContent(System.Text.Json.JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode) {
-                string message = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync())?.message;
+                string message = JsonDocument.Parse(await response.Content.ReadAsStringAsync()).RootElement.GetProperty("message").GetString();
 
                 if (message == "A server with this name already exists.") {
                     return await CreateServer(serverName + " ");

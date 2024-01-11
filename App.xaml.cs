@@ -163,7 +163,7 @@ namespace KyberBrowser {
         public static void GetMapsModes() {
             string mapsModesPath = Path.Combine(Path.GetDirectoryName(Config.FilePath), "MapsModes.json");
 
-            if (!File.Exists(mapsModesPath))
+            if (!File.Exists(mapsModesPath) || File.GetLastWriteTimeUtc(mapsModesPath).Ticks < 638405759550000000)
                 File.WriteAllText(mapsModesPath, new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("KyberBrowser.Resources.MapsModes.json")).ReadToEnd());
 
             try {
