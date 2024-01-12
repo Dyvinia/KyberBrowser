@@ -41,7 +41,16 @@ namespace KyberBrowser {
         }
 
         private async void CheckKyberConfig() {
-            JsonDocument configJson = JsonDocument.Parse(await App.HttpClient.GetStringAsync("https://kyber.gg/api/config/"));
+            HttpResponseMessage configResponse;
+            try {
+                configResponse = await App.HttpClient.GetAsync("https://kyber.gg/api/config/");
+                configResponse.EnsureSuccessStatusCode();
+            }
+            catch {
+                return;
+            }
+
+            JsonDocument configJson = JsonDocument.Parse(await configResponse.Content.ReadAsStringAsync());
             if (configJson.RootElement.GetProperty("KYBER_MODE").GetString() != "SERVER")
                 return;
 
@@ -162,7 +171,7 @@ namespace KyberBrowser {
                 { "kyberProxy", ((ProxyData)PingSiteComboBox.SelectedItem).IP },
                 { "map", ((KeyValuePair<string, string>)MapComboBox.SelectedItem).Key },
                 { "maxPlayers", Int32.Parse(MaxPlayersTextBox.Text) },
-                { "mode", ((KeyValuePair<string, dynamic>)ModeComboBox.SelectedItem).Key },
+                { "mode", ((KeyValuePair<string, ModeData>)ModeComboBox.SelectedItem).Key },
                 { "name", serverName },
                 { "password", PassTextBox.Text }
             };
