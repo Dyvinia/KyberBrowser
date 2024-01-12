@@ -64,9 +64,9 @@ namespace KyberBrowser {
 
             DescTextBox.Text = Encoding.UTF8.GetString(Convert.FromBase64String(serverOptions.GetProperty("DESCRIPTION").GetString()));
 
-            ModeComboBox.SelectedIndex = ((Dictionary<string, ModeData>)ModeComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MODE").GetString());
+            ModeComboBox.SelectedIndex = ((Dictionary<string, ModeData>)ModeComboBox.ItemsSource).Keys.ToList().IndexOf(serverOptions.GetProperty("MODE").GetString());
 
-            MapComboBox.SelectedIndex = ((Dictionary<string, string>)MapComboBox.ItemsSource).Keys.ToList().FindIndex(m => m == serverOptions.GetProperty("MAP").GetString());
+            MapComboBox.SelectedIndex = ((Dictionary<string, string>)MapComboBox.ItemsSource).Keys.ToList().IndexOf(serverOptions.GetProperty("MAP").GetString());
 
             MaxPlayersTextBox.Text = serverOptions.GetProperty("MAX_PLAYERS").GetInt32().ToString();
         }
@@ -170,13 +170,13 @@ namespace KyberBrowser {
                 { "faction", LightFactionRadio.IsChecked == true ? 0 : 1 },
                 { "kyberProxy", ((ProxyData)PingSiteComboBox.SelectedItem).IP },
                 { "map", ((KeyValuePair<string, string>)MapComboBox.SelectedItem).Key },
-                { "maxPlayers", Int32.Parse(MaxPlayersTextBox.Text) },
+                { "maxPlayers", int.Parse(MaxPlayersTextBox.Text) },
                 { "mode", ((KeyValuePair<string, ModeData>)ModeComboBox.SelectedItem).Key },
                 { "name", serverName },
                 { "password", PassTextBox.Text }
             };
 
-            HttpResponseMessage response = await App.HttpClient.PostAsync("https://kyber.gg/api/config/host", new StringContent(System.Text.Json.JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
+            HttpResponseMessage response = await App.HttpClient.PostAsync("https://kyber.gg/api/config/host", new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode) {
                 string message = JsonDocument.Parse(await response.Content.ReadAsStringAsync()).RootElement.GetProperty("message").GetString();
