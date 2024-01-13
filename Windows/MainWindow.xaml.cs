@@ -260,6 +260,12 @@ namespace KyberBrowser {
             ServerListBox.SelectedItem = ((List<ServerData>)ServerListBox.ItemsSource).FirstOrDefault(s => s.ID == selectedID);
         }
 
+        private void CopyServerLink() {
+            ServerData server = (ServerData)ServerListBox.SelectedItem;
+            if (server is not null)
+                Clipboard.SetDataObject($"https://kyber.gg/servers/{server.ID}");
+        }
+
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             string selectedID = ((ServerData)ServerListBox.SelectedItem)?.ID;
 
@@ -354,6 +360,9 @@ namespace KyberBrowser {
 
             if (e.Key == Key.N && Keyboard.Modifiers == ModifierKeys.Control)
                 HostButton_Click(null, null);
+
+            if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+                CopyServerLink();
 
             if (e.Key == Key.F5) {
                 RefreshServerList();
