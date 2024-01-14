@@ -263,7 +263,7 @@ namespace KyberBrowser {
         private void CopyServerLink() {
             ServerData server = (ServerData)ServerListBox.SelectedItem;
             if (server is not null)
-                Clipboard.SetDataObject($"https://kyber.gg/servers/{server.ID}");
+                Clipboard.SetDataObject($"https://kyber.gg/servers/{server.ID}", true);
         }
 
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e) {
