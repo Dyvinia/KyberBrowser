@@ -13,7 +13,7 @@
     <Grid>
         <Grid Opacity="1">
             <Grid.Background>
-                <ImageBrush ImageSource="/Resources/kyber_bg.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+                <ImageBrush x:Name="BackgroundImage" ImageSource="/Resources/kyber_bg.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
                 </ImageBrush>
             </Grid.Background>
         </Grid>

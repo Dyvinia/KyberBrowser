@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using DyviniaUtils;
 using KyberBrowser.Dialogs;
 
@@ -26,6 +27,9 @@ namespace KyberBrowser {
         public MainWindow() {
             InitializeComponent();
 
+            if (!Config.Settings.DisableEasterEggs)
+                ImageRandomizer();
+
             MouseDown += (s, e) => FocusManager.SetFocusedElement(this, this);
 
             ModDataComboBox.ItemsSource = App.ModDataList;
@@ -38,6 +42,16 @@ namespace KyberBrowser {
 
             StartInjectionPolling();
             StartRefreshLoop();
+        }
+
+        private readonly BitmapImage owlhous = new(new Uri("https://i.imgur.com/Db6N5Xa.png"));
+        private readonly BitmapImage kybertr = new(new Uri("https://i.imgur.com/8fxtqWU.png"));
+        private void ImageRandomizer() {
+            int random = new Random().Next(0, 200);
+            if (random < 1) 
+                BackgroundImage.ImageSource = owlhous; // 0.5%
+            else if (random < 6)
+                BackgroundImage.ImageSource = kybertr; // 2.5%
         }
 
         private async Task GetServersAsync() {
@@ -364,9 +378,11 @@ namespace KyberBrowser {
             if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
                 CopyServerLink();
 
-            if (e.Key == Key.F5) {
+            if (e.Key == Key.F5)
                 RefreshServerList();
-            }
+
+            if (e.Key == Key.F1)
+                ImageRandomizer();
 
             if (e.Key == Key.F12) {
                 SettingsWindow settingsWindow = new();

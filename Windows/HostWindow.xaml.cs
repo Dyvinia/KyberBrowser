@@ -36,8 +36,10 @@ namespace KyberBrowser {
             ModDataComboBox.ItemsSource = App.ModDataList.ToList();
             ModDataComboBox.SelectedIndex = App.ModDataList.ToList().FindIndex(s => s.FullName == Config.Settings.SelectedModData);
 
-            try { CheckKyberConfig(); }
-            catch { }
+            if (Config.Settings.HostConfigStartup) {
+                try { CheckKyberConfig(); }
+                catch { }
+            }
         }
 
         private async void CheckKyberConfig() {
