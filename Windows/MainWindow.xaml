@@ -242,7 +242,7 @@
                                 </Grid>
                                 <Separator Margin="-1 2 -1 8"/>
                                 <StackPanel x:Name="DescrSection">
-                                    <TextBox x:Name="InfoDescription" Text="Description" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3" TextWrapping="Wrap" BorderThickness="0" IsReadOnly="True"/>
+                                    <TextBox x:Name="InfoDescription" Text="Description" FontFamily="/Fonts/NewsGothBT.ttf #NewsGoth BT" FontSize="15" Foreground="#FFA3A3A3" Background="Transparent" TextWrapping="Wrap" BorderThickness="0" IsReadOnly="True"/>
                                     <Separator x:Name="InfoDescTagSeparator" Margin="1" Opacity="0"/>
                                     <ListBox x:Name="InfoTags" BorderThickness="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" MaxHeight="100">
                                         <ListBox.ItemsPanel>
