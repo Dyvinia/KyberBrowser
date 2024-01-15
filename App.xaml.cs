@@ -28,6 +28,7 @@ namespace KyberBrowser {
         public bool ShowTagsInBrowser { get; set; } = true;
         public bool HostConfigStartup { get; set; } = true;
         public bool DisableEasterEggs { get; set; } = false;
+        public bool TheOwlHouse { get; set; } = false;
 
         public string KyberChannel { get; set; } = "stable";
         public string BF2Path { get; set; } = String.Empty;

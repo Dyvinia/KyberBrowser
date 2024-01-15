@@ -44,14 +44,29 @@ namespace KyberBrowser {
             StartRefreshLoop();
         }
 
-        private readonly BitmapImage owlhous = new(new Uri("https://i.imgur.com/Db6N5Xa.png"));
+
+        private readonly BitmapImage owlhous = new(new Uri("https://i.imgur.com/PuhHwoH.png"));
+        private readonly BitmapImage owlhous2 = new(new Uri("https://i.imgur.com/Db6N5Xa.png"));
+        private readonly BitmapImage owlhous3 = new(new Uri("https://i.imgur.com/z1lvPqR.png"));
+        private readonly BitmapImage owlhous4 = new(new Uri("https://i.imgur.com/vUUrkdQ.png"));
         private readonly BitmapImage kybertr = new(new Uri("https://i.imgur.com/8fxtqWU.png"));
         private void ImageRandomizer() {
             int random = new Random().Next(0, 200);
-            if (random < 1) 
+            if (random < 1)
                 BackgroundImage.ImageSource = owlhous; // 0.5%
             else if (random < 6)
                 BackgroundImage.ImageSource = kybertr; // 2.5%
+
+            if (Config.Settings.TheOwlHouse) {
+                if (random < 50)
+                    BackgroundImage.ImageSource = owlhous;
+                else if (random < 100)
+                    BackgroundImage.ImageSource = owlhous2;
+                else if (random < 150)
+                    BackgroundImage.ImageSource = owlhous3;
+                else
+                    BackgroundImage.ImageSource = owlhous4;
+            }
         }
 
         private async Task GetServersAsync() {
