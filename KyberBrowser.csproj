@@ -4,7 +4,7 @@
 		<OutputType>WinExe</OutputType>
 
 		<AssemblyName>KyberBrowser</AssemblyName>
-		<Version>1.2.5</Version>
+		<Version>1.2.6</Version>
 		<Copyright>Copyright © 2023 Dyvinia</Copyright>
 		<Company>Dyvinia</Company>
 		<ApplicationIcon>Resources\kyberbrowser_icon.ico</ApplicationIcon>
