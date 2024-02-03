@@ -60,6 +60,8 @@ namespace KyberBrowser {
         public static Dictionary<string, ModeData> Modes { get; private set; } = new();
         public static Dictionary<string, Dictionary<string, string>> ModOverrides { get; private set; } = new();
 
+        public static List<string> BannedFilter { get; private set; } = new();
+
         public App() {
             Config.Load();
 
@@ -87,6 +89,8 @@ namespace KyberBrowser {
                     if (existingProcess.Id != Environment.ProcessId)
                         existingProcess.Kill();
             }
+
+            GetSlurFilter();
 
             MainWindow window = new();
             window.Show();
@@ -184,6 +188,23 @@ namespace KyberBrowser {
                     Environment.Exit(0);
                 }));
             }
+        }
+
+        private static async void GetSlurFilter() {
+            try {
+                BannedFilter = JsonSerializer.Deserialize<string[]>(await HttpClient.GetStringAsync("https://raw.githubusercontent.com/dariusk/wordfilter/master/lib/badwords.json")).ToList();
+
+                // Remove some words that are considered fine
+                BannedFilter.Remove("crazy");
+                BannedFilter.Remove("crazie");
+                BannedFilter.Remove("dumb");
+                BannedFilter.Remove("idiot");
+                BannedFilter.Remove("insane");
+                BannedFilter.Remove("insanitie");
+                BannedFilter.Remove("insanity");
+                BannedFilter.Remove("lame");
+            }
+            catch { }
         }
 
         private static string ToHex(byte[] bytes, bool upperCase) {

@@ -77,6 +77,8 @@ namespace KyberBrowser {
                 servers.AddRange(serverPage);
             }
 
+            servers.RemoveAll(s => App.BannedFilter.Any(s.Name.ToLower().Contains));
+
             ServerListBox.ItemsSource = servers;
         }
 
