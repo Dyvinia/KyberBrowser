@@ -1,6 +1,6 @@
 # KyberBrowser
 [![Latest Release](https://img.shields.io/github/v/release/Dyvinia/KyberBrowser?style=for-the-badge&labelColor=1f0943&color=844cfc&label=Release)](https://github.com/Dyvinia/KyberBrowser/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Dyvinia/KyberBrowser/total?style=for-the-badge&labelColor=1f0943&color=844cfc&label=Downloads)](https://github.com/Dyvinia/KyberBrowser/releases)
+[![Downloads](https://img.shields.io/github/downloads/Dyvinia/KyberBrowser/total?style=for-the-badge&labelColor=1f0943&color=844cfc&label=Downloads)](https://github.com/Dyvinia/KyberBrowser/releases/latest/download/KyberBrowser.exe)
 
 Server Browser and Launcher for [Kyber](https://kyber.gg/)
 
